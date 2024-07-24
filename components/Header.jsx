@@ -35,7 +35,7 @@ export default function Header() {
                         </Typography>
                     </Box>
                     <Box>
-                        <Button variant="contained" >
+                        <Button variant="contained" onClick={() => router.push('/highlights')} >
                             Know More
                         </Button>
                     </Box>
