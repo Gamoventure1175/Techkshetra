@@ -1,10 +1,12 @@
 'use client'
 
 import { Box, Typography, Stack, Container, Button } from "@mui/material";
-
-import { useSession } from "next-auth/react";
+import {useRouter} from "next/navigation";
 
 export default function Header() {
+
+    const router = useRouter();
+
     return(
         <Box 
         id='home' 

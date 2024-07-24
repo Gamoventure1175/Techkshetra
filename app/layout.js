@@ -12,7 +12,7 @@ import { ThemeProviderComponent } from "@/context/ThemeContext";
 export default function RootLayout({ children }) {
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
-  const noNavFooter = ['/auth/signup', '/auth/signin'];
+  const noNavFooter = ['/auth/signup', '/auth/signin', '/highlights', '/profile'];
 
   useEffect(() => {
     // Check if the preloader has already been shown

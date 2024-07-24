@@ -1,35 +1,25 @@
 'use client';
 
-import React, { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import React, { useState, useEffect } from 'react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Button, TextField, Typography, Container, Box, Snackbar, Alert, Link, useTheme } from '@mui/material';
+import { Button, Typography, Container, Box, Snackbar, Alert, useTheme } from '@mui/material';
 import { Google as GoogleIcon } from '@mui/icons-material';
 
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { data: session, status } = useSession();
   const router = useRouter();
   const theme = useTheme(); // Get current theme
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const result = await signIn('credentials', {
-      redirect: false,
-      email,
-      password,
-    });
-
-    if (result.error) {
-      setError(result.error);
-    } else {
-      router.push('/'); // Adjust as needed
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/'); // Redirect to homepage or desired route after sign-in
     }
-  };
+  }, [status, router]);
 
   const handleGoogleSignIn = () => {
-    signIn('google', { redirect: true });
+    signIn('google', { callbackUrl: '/' }); // Specify the callback URL
   };
 
   return (
@@ -61,67 +51,16 @@ const SignIn = () => {
           <Typography component="h1" variant="h1">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              size='small'
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              size='small'
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Button
-              fullWidth
-              variant="outlined"
-              color="secondary"
-              startIcon={<GoogleIcon />}
-              onClick={handleGoogleSignIn}
-              sx={{ mb: 2 }}
-            >
-              Sign in with Google
-            </Button>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              <Typography variant="body2" color="textSecondary">
-                Don&apos;t have an account?{' '}
-                <Link href="/auth/signup" variant="body2">
-                  Sign Up
-                </Link>
-              </Typography>
-            </Box>
-          </Box>
+          <Button
+            fullWidth
+            variant="outlined"
+            color="secondary"
+            startIcon={<GoogleIcon />}
+            onClick={handleGoogleSignIn}
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign in with Google
+          </Button>
           {error && (
             <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')}>
               <Alert onClose={() => setError('')} severity="error">

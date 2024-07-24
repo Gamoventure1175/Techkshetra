@@ -18,14 +18,15 @@
     "@prisma/client": "^5.17.0",
     "bcryptjs": "^2.4.3",
     "faunadb": "^4.8.0",
-    "framer-motion": "^11.3.8",
+    "framer-motion": "^11.3.12",
     "next": "14.2.5",
     "next-auth": "^4.24.7",
     "nodemailer": "^6.9.14",
     "openssl": "^2.0.0",
     "prisma": "^5.17.0",
-    "react": "^18",
-    "react-dom": "^18"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-masonry-css": "^1.0.16"
   },
   "devDependencies": {
     "postcss": "^8",

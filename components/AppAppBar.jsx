@@ -17,6 +17,7 @@ import ToggleColorMode from './ToggleColorMode';
 import Image from 'next/image';
 import logo from '@/public/images/logot.png';
 import { useTheme } from '@/context/ThemeContext';
+import { useRouter } from 'next/navigation';
 
 const logoStyle = {
   width: '50px',
@@ -27,6 +28,7 @@ const logoStyle = {
 function AppAppBar() {
   const { mode, toggleColorMode } = useTheme(); // Access theme from context
   const { data: session, status } = useSession(); // Access session data
+  const router = useRouter();
 
   const [open, setOpen] = React.useState(false);
 
@@ -109,7 +111,7 @@ function AppAppBar() {
               />
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <MenuItem
-                  onClick={() => scrollToSection('home')}
+                  onClick={() => router.push('/')}
                   sx={{ py: '6px', px: '12px' }}
                 >
                   <Typography variant="body2" color="text.primary">
@@ -125,7 +127,7 @@ function AppAppBar() {
                   </Typography>
                 </MenuItem>
                 <MenuItem
-                  onClick={() => scrollToSection('highlights')}
+                  onClick={() => router.push('/highlights')}
                   sx={{ py: '6px', px: '12px' }}
                 >
                   <Typography variant="body2" color="text.primary">
@@ -133,15 +135,7 @@ function AppAppBar() {
                   </Typography>
                 </MenuItem>
                 <MenuItem
-                  onClick={() => scrollToSection('projects')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
-                  <Typography variant="body2" color="text.primary">
-                    Projects
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => scrollToSection('aboutus')}
+                  onClick={() => router.push('/aboutus')}
                   sx={{ py: '6px', px: '12px' }}
                 >
                   <Typography variant="body2" color="text.primary">
@@ -192,16 +186,6 @@ function AppAppBar() {
                   >
                     Sign in
                   </Button>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    size="small"
-                    component="a"
-                    href="/auth/signup"
-                    target="_self"
-                  >
-                    Sign up
-                  </Button>
                 </>
               )}
             </Box>
@@ -240,13 +224,10 @@ function AppAppBar() {
                   <MenuItem onClick={() => scrollToSection('events')}>
                     Events
                   </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('highlights')}>
+                  <MenuItem onClick={() => router.push('/highlights')}>
                     Highlights
                   </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('projects')}>
-                    Projects
-                  </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('aboutus')}>About Us</MenuItem>
+                  <MenuItem onClick={() => router.push('/aboutus')}>About Us</MenuItem>
                   <Divider />
                   {status === 'authenticated' ? (
                     <>
@@ -276,15 +257,6 @@ function AppAppBar() {
                   ) : (
                     <>
                       <MenuItem>
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          component="a"
-                          href="/auth/signup"
-                          sx={{ width: '100%' }}
-                        >
-                          Sign up
-                        </Button>
                       </MenuItem>
                       <MenuItem>
                         <Button

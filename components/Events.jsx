@@ -3,7 +3,7 @@
 import React from 'react';
 import { Paper, Card,  CardContent, CardMedia, Container, Typography, Button, Box, Grid, Stack } from '@mui/material';
 import Image from 'next/image';
-import imageKitLoader from '@/imagekitloader';
+import imageKitLoader from '@/libs/imagekitloader';
 
 const imageStyle = {
   width: '100%',

@@ -18,7 +18,7 @@ datasource db {
 
 model Account {
   id                 String    @id @default(auto()) @map("_id") @db.ObjectId // Explicit mapping of id to _id
-  userId             String
+  userId             String    @db.ObjectId
   type               String
   provider           String
   providerAccountId  String
@@ -42,13 +42,11 @@ model Account {
 model Session {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId  // Explicit mapping of id to _id
   sessionToken  String    @unique
-  userId        String
+  userId        String    @db.ObjectId
   expires       DateTime  // Use DateTime for storing expiration dates
   
   user          User      @relation(fields: [userId], references: [id])
 }
-
-// user.prisma
 
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
@@ -61,10 +59,6 @@ model User {
   sessions      Session[]
 }
 
-
-
-// verificationToken.prisma
-
 model VerificationToken {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId // Primary key, auto-generated
   identifier  String
@@ -73,4 +67,3 @@ model VerificationToken {
   
   @@unique([identifier, token])
 }
-

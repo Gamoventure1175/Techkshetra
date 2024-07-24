@@ -1,14 +1,20 @@
-'use client'
+// app/components/ClientComponent.js
+"use client";
 
-import { useSession } from "next-auth/react";
+import { useSession } from 'next-auth/react';
 
-const MyComponent = () => {
+export default function ClientComponent() {
   const { data: session, status } = useSession();
 
-  if (status === "loading") return <div>Loading...</div>;
-  if (!session) return <div>Not signed in</div>;
+  if (status === 'loading') return <p>Loading...</p>;
 
-  return <div>Welcome, {session.user.email} </div>;
+  return (
+    <div>
+      {session ? (
+        <p>Welcome back, {session.user.email}!</p>
+      ) : (
+        <p>Please sign in</p>
+      )}
+    </div>
+  );
 };
-
-export default MyComponent;

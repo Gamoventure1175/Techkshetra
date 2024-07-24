@@ -1,0 +1,27 @@
+const teamMembers = [
+    { name: 'Rushika Khawas', role: 'Student Coordinator', imagePath: '/members/studentcoordinator1', email: 'khawasrushika@gmail.com' },
+    { name: 'Sanakar Gaikwad', role: 'Head Coordinator', imagePath: '/members/headcoordinator', email: 'sanskargaikwad206@gmail.com' },
+    { name: 'Sakshi Ransing', role: 'Student Coordinator', imagePath: '/members/studentcoordinator2', email: 'sakshiransing.28@gmail.com' },
+    { name: 'Chetna Patil', role: 'Planning Head', imagePath: '/members/planninghead2'},
+    { name: 'Osama Shaikh', role: 'Planning Head', imagePath: '/members/planninghead1'},
+    { name: 'Sapana Sonavane', role: 'Decoration Head', imagePath: '/members/decorationhead2'},
+    { name: 'Ritika Chavan', role: 'Decoration Head', imagePath: '/members/decorationhead1'},
+    { name: 'Omkar Halpatrao', role: 'Management Head', imagePath: '/members/management1'},
+    { name: 'Sumit Shrivastav', role: 'Management Head', imagePath: '/members/management2'},
+    { name: 'Gaurav Mahajan', role: 'Project and Technical Head', imagePath: '/members/technicalandprojecthead'},
+    { name: 'Aditya Naikwadi', role: 'Project Head', imagePath: '/members/projecthead1'},
+    { name: 'Amir Khan', role: 'Technical Head', imagePath: '/members/technicalhead1'},
+    { name: 'Prajwal Sonawane', role: 'Editing Head', imagePath: '/members/editinghead2'},
+    { name: 'Bhavarlal Kumavat', role: 'Editing Head', imagePath: '/members/editinghead1'},
+    { name: 'Mayur Khairnar', role: 'Photography Head', imagePath: '/members/photography'},
+    { name: 'Mandar Dongre', role: 'Social Media', imagePath: '/members/socialmediahead1'},
+    { name: 'Aryan Nalge', role: 'Social Media', imagePath: '/members/socialmediahead2'},
+    { name: 'Raina Mishra', role: 'Reporting Head', imagePath: '/members/reportinghead2'},
+    { name: 'Sanjana Patil', role: 'Reporting Head', imagePath: '/members/reportinghead1'},
+    { name: 'Riya Jamdar', role: 'PR Head', imagePath: '/members/prhead2'},
+    { name: 'Girish Chede', role: 'PR Head', imagePath: '/members/prhead1'},
+    { name: 'Harsha Jadhav', role: 'Security Head', imagePath: '/members/securityhead2'},
+    { name: 'Atif Syed', role: 'Security Head', imagePath: '/members/securityhead1'},
+  ];
+  
+export default teamMembers;
