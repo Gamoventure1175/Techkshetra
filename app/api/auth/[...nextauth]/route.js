@@ -24,38 +24,39 @@ const authOptions = {
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      if (account.provider === 'google') {
-        // If the user is signing in with Google
-        const existingUser = await prisma.user.findUnique({
-          where: { email: user.email },
-        });
-
-        if (existingUser) {
-          // Link the Google account to the existing user
-          await prisma.account.create({
-            data: {
-              userId: existingUser.id,
-              provider: account.provider,
-              providerAccountId: account.providerAccountId,
-              type: account.type,
-              access_token: account.access_token,
-              expires_at: account.expires_at,
-              id_token: account.id_token,
-              refresh_token: account.refresh_token,
-              scope: account.scope,
-              token_type: account.token_type,
-              session_state: account.session_state,
-              oauth_token: account.oauth_token,
-              oauth_token_secret: account.oauth_token_secret,
-            },
+      try {
+        if (account.provider === 'google') {
+          const existingUser = await prisma.user.findUnique({
+            where: { email: user.email },
           });
-
-          // Sign in the user with the existing user data
-          return true;
+    
+          if (existingUser) {
+            await prisma.account.create({
+              data: {
+                userId: existingUser.id,
+                provider: account.provider,
+                providerAccountId: account.providerAccountId,
+                type: account.type,
+                access_token: account.access_token,
+                expires_at: account.expires_at,
+                id_token: account.id_token,
+                refresh_token: account.refresh_token,
+                scope: account.scope,
+                token_type: account.token_type,
+                session_state: account.session_state,
+                oauth_token: account.oauth_token,
+                oauth_token_secret: account.oauth_token_secret,
+              },
+            });
+            return true;
+          }
         }
+        return true;
+      } catch (error) {
+        console.error('Error in signIn callback:', error);
+        return false;
       }
-      return true;
-    },
+    },    
     async session({ session, user }) {
       session.user.id = user.id;
       return session;
