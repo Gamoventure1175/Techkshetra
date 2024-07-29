@@ -226,7 +226,7 @@ function AppAppBar() {
                   >
                     <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
                   </Box>
-                  <MenuItem onClick={() => scrollToSection('home')}>
+                  <MenuItem onClick={() => scrollToSection('/')}>
                     Home
                   </MenuItem>
                   <MenuItem onClick={() => scrollToSection('events')}>
