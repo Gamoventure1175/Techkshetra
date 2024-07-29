@@ -11,6 +11,11 @@ const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          redirect_uri: process.env.NEXTAUTH_URL + '/api/auth/callback/google',
+        },
+      },
     }),
   ],
   session: {
@@ -29,7 +34,7 @@ const authOptions = {
           const existingUser = await prisma.user.findUnique({
             where: { email: user.email },
           });
-    
+
           if (existingUser) {
             await prisma.account.create({
               data: {
@@ -56,7 +61,7 @@ const authOptions = {
         console.error('Error in signIn callback:', error);
         return false;
       }
-    },    
+    },
     async session({ session, user }) {
       session.user.id = user.id;
       return session;
