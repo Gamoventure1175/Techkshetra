@@ -20,7 +20,7 @@ const courses = {
     "Databases": [
       { name: 'Learn Basics of Databases', url: 'https://www.simplilearn.com/learn-basics-of-databases-free-course-skillup?source=SidebarWidget_SkillUp', imagePath: '/courses/learn_basics_databases', description: 'Fundamental concepts of databases.' },
     ],
-    businessAnalysis: [
+    'Business Analysis': [
       { name: 'Career Essentials in Business Analysis', url: 'https://www.linkedin.com/learning/paths/career-essentials-in-business-analysis-by-microsoft-and-linkedin', imagePath: '/courses/career_essentials_business_analysis', description: 'Essential skills for business analysis.' },
     ],
     "Prompt Engineering": [
