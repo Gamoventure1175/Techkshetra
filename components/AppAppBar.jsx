@@ -235,7 +235,7 @@ function AppAppBar() {
                   <MenuItem onClick={() => router.push('/highlights')}>
                     Highlights
                   </MenuItem>
-                  <MenuItem onClick={() => router.push('/highlights')}>
+                  <MenuItem onClick={() => router.push('/courses')}>
                     Courses
                   </MenuItem>
                   <MenuItem onClick={() => router.push('/aboutus')}>About Us</MenuItem>
