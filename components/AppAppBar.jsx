@@ -44,7 +44,7 @@ function AppAppBar() {
       let targetScroll;
 
       if (sectionId === 'events') {
-        const offset = 100; // Custom offset for the 'events' section
+        const offset = 0; // Custom offset for the 'events' section
         targetScroll = sectionElement.offsetTop - offset;
       } else {
         const elementHeight = sectionElement.offsetHeight;
@@ -80,7 +80,7 @@ function AppAppBar() {
               alignItems: 'center',
               justifyContent: 'space-between',
               flexShrink: 0,
-              borderRadius: '999px',
+              borderRadius: '18px',
               bgcolor:
                 theme.palette.mode === 'light'
                   ? 'rgba(255, 255, 255, 0.4)'
@@ -132,6 +132,14 @@ function AppAppBar() {
                 >
                   <Typography variant="body2" color="text.primary">
                     Highlights
+                  </Typography>
+                </MenuItem>
+                <MenuItem
+                  onClick={() => router.push('/courses')}
+                  sx={{ py: '6px', px: '12px' }}
+                >
+                  <Typography variant="body2" color="text.primary">
+                    Courses
                   </Typography>
                 </MenuItem>
                 <MenuItem
@@ -226,6 +234,9 @@ function AppAppBar() {
                   </MenuItem>
                   <MenuItem onClick={() => router.push('/highlights')}>
                     Highlights
+                  </MenuItem>
+                  <MenuItem onClick={() => router.push('/highlights')}>
+                    Courses
                   </MenuItem>
                   <MenuItem onClick={() => router.push('/aboutus')}>About Us</MenuItem>
                   <Divider />

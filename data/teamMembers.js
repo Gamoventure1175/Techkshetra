@@ -1,6 +1,6 @@
 const teamMembers = [
     { name: 'Rushika Khawas', role: 'Student Coordinator', imagePath: '/members/studentcoordinator1', email: 'khawasrushika@gmail.com' },
-    { name: 'Sanakar Gaikwad', role: 'Head Coordinator', imagePath: '/members/headcoordinator', email: 'sanskargaikwad206@gmail.com' },
+    { name: 'Sanskar Gaikwad', role: 'Head Coordinator', imagePath: '/members/headcoordinator', email: 'sanskargaikwad206@gmail.com' },
     { name: 'Sakshi Ransing', role: 'Student Coordinator', imagePath: '/members/studentcoordinator2', email: 'sakshiransing.28@gmail.com' },
     { name: 'Chetna Patil', role: 'Planning Head', imagePath: '/members/planninghead2'},
     { name: 'Osama Shaikh', role: 'Planning Head', imagePath: '/members/planninghead1'},

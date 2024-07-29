@@ -2,13 +2,18 @@
 
 import { Box, Typography, Stack, Container, Button } from "@mui/material";
 import {useRouter} from "next/navigation";
+import { motion } from 'framer-motion';
 
 export default function Header() {
 
     const router = useRouter();
 
     return(
-        <Box 
+        <Box
+        component={motion.div}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
         id='home' 
         sx={{
             width: "100%", 
@@ -25,17 +30,20 @@ export default function Header() {
             }}>
                 <Stack spacing={2} useFlexGap sx={{textAlign: 'center'}}>
                     <Box>
-                        <Typography variant='h1' fontSize={{xs: 58, sm: 72, md: 102 }}>
+                        <Typography variant='h4'>
+                        B. K. Birla College of Arts, Science & Commerce
+                        </Typography>
+                        <Typography variant='subtitle2'>
+                        presents
+                        </Typography>
+                    </Box>
+                    <Box>
+                        <Typography variant='h1' my={{xs: 3, sm: 4}}>
                             TechKshetra
                         </Typography> 
                     </Box>  
                     <Box>
-                        <Typography variant='subtitle1' fontSize={{xs:16, sm:24, md: 32}}>
-                        B. K. Birla College of Arts, Science & Commerce
-                        </Typography>
-                    </Box>
-                    <Box>
-                        <Button variant="contained" onClick={() => router.push('/highlights')} >
+                        <Button variant="contained" onClick={() => router.push('/aboutus')} >
                             Know More
                         </Button>
                     </Box>

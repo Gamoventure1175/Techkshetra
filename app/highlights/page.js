@@ -1,64 +1,14 @@
-'use client'
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image'; 
 import imageKitLoader from '@/libs/imagekitloader'; 
-import { Container, Typography, Box } from '@mui/material';
+import { Container, Typography, Box, Button, Stack } from '@mui/material';
 import { useTheme } from '@/context/ThemeContext';
-import FixedTabComponent from '@/components/FixedTabComponent'; // Import the FixedTabComponent
-import './highlights.css'; // Import the CSS file for custom styles
-
-// Highlights data
-const highlights = [
-  {
-    title: 'Ganesh Chaturthi',
-    images: [
-      '/ganeshchaturthi/ganesha1',
-      '/ganeshchaturthi/ganesha2',
-      '/ganeshchaturthi/ganesha3',
-      '/ganeshchaturthi/ganesha4',
-      '/ganeshchaturthi/ganesha5',
-      '/ganeshchaturthi/ganesha6',
-      '/ganeshchaturthi/ganesha7',
-      '/ganeshchaturthi/ganesha8',
-      '/ganeshchaturthi/ganesha9',
-    ],
-  },
-  {
-    title: 'IT Club',
-    images: [
-      '/itclub/itclub1',
-      '/itclub/itclub2',
-      '/itclub/itclub3',
-      '/itclub/itclub4',
-      '/itclub/itclub5',
-      '/itclub/itclub6',
-      '/itclub/itclub7',
-      '/itclub/itclub8',
-      '/itclub/itclub9',
-    ],
-  },
-  {
-    title: 'Seminars',
-    images: [
-      '/seminars/seminar1',
-      '/seminars/seminar2',
-      '/seminars/seminar3',
-      '/seminars/seminar4',
-    ],
-  },
-  {
-    title: 'Blockchain Event',
-    images: [
-      '/blockchainevent/blockchain1',
-      '/blockchainevent/blockchain2',
-      '/blockchainevent/blockchain3',
-      '/blockchainevent/blockchain4',
-      '/blockchainevent/blockchain5',
-    ],
-  },
-];
+import HomeButton from '@/components/HomeButton';
+import './highlights.css';
+import highlights from '@/data/highlights';
 
 const HighlightsPage = () => {
   const { mode, toggleColorMode } = useTheme(); 
@@ -67,6 +17,7 @@ const HighlightsPage = () => {
   const allImages = highlights.flatMap(highlight => highlight.images);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [activeSection, setActiveSection] = useState(highlights[0].title);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -95,6 +46,18 @@ const HighlightsPage = () => {
         duration: 1,
       },
     },
+  };
+
+  const galleryVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.2,
+        duration: 0.5,
+      },
+    }),
   };
 
   return (
@@ -150,37 +113,57 @@ const HighlightsPage = () => {
         </AnimatePresence>
       </Box>
 
+      {/* Section Navigation Buttons */}
+      <Stack direction="row" gap={2} flexWrap={'wrap'} justifyContent="center" sx={{ mt: {xs: 4, sm: 10} }}>
+        {highlights.map((highlight, index) => (
+          <Button
+            key={index}
+            variant={highlight.title === activeSection ? "contained" : "outlined"}
+            onClick={() => setActiveSection(highlight.title)}
+          >
+            {highlight.title}
+          </Button>
+        ))}
+      </Stack>
+
       {/* Highlights Gallery */}
       {highlights.map((highlight, index) => (
-        <Box key={index} my={{ xs: 6, sm: 10 }} id={highlight.title}>
-          <Typography variant="h4" gutterBottom>
-            {highlight.title}
-          </Typography>
-          <div className="gallery-grid">
-            {highlight.images.map((image, imgIndex) => (
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: 'spring', stiffness: 300 }}
-                className="gallery-item"
-                key={imgIndex}
-              >
-                <Image
-                  loader={imageKitLoader}
-                  src={image}
-                  alt={`${highlight.title} Image ${imgIndex + 1}`}
-                  width={600}
-                  height={400}
-                  style={{ objectFit: 'cover' }}
-                  priority
-                />
-              </motion.div>
-            ))}
-          </div>
-        </Box>
+        highlight.title === activeSection && (
+          <Box key={index} my={{ xs: 4, sm: 6 }} id={highlight.title}>
+            <Typography variant="h4" gutterBottom>
+              {highlight.title}
+            </Typography>
+            <div className="gallery-grid">
+              <AnimatePresence>
+                {highlight.images.map((image, imgIndex) => (
+                  <motion.div
+                    key={imgIndex}
+                    custom={imgIndex}
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    variants={galleryVariants}
+                    className="gallery-item"
+                  >
+                    <Image
+                      loader={imageKitLoader}
+                      src={image}
+                      alt={`${highlight.title} Image ${imgIndex + 1}`}
+                      width={600}
+                      height={400}
+                      style={{ objectFit: 'cover' }}
+                      priority
+                    />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </Box>
+        )
       ))}
 
       {/* Fixed Tab Component */}
-      <FixedTabComponent />
+      <HomeButton />
     </Container>
   );
 };

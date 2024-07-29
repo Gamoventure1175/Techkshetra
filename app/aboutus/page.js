@@ -7,10 +7,12 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import imageKitLoader from '@/libs/imagekitloader';
 import teamMembers from '@/data/teamMembers';
-
+import { useRouter } from 'next/navigation';
+ 
 const AboutUs = () => {
   const [showAll, setShowAll] = useState(false);
   const theme = useTheme();
+  const router = useRouter();
 
   const visibleMembers = showAll ? teamMembers : teamMembers.slice(0, 3); // Display the first 3 members initially
 
@@ -26,43 +28,46 @@ const AboutUs = () => {
             my: { xs: 12, sm: 19 }
         }}
       >
-        <Typography variant='h1' fontSize={{ xs: 58, sm: 72, md: 102 }}>
-          TechKshetra
-        </Typography>
-        <Typography variant="h6" align="center" color="textSecondary" paragraph>
-          Welcome to B. K. Birla College, Kalyan's first CS and IT club for all things 
-          <span style={{ fontFamily: 'Roboto, sans-serif' }}> TECH </span>
-        </Typography>
-        
-        <Box mt={4}>
+        <Box my={4}>
           <Typography variant="body1" align="center" color="textSecondary">
             Powered By
           </Typography>
-          <Box 
-            sx={{
-              width: 100,
-              height: 100,
-              mx: 'auto',
-              mt: 1,
-              mb: 1,
-              borderRadius: '50%', // This makes the avatar circular
-              overflow: 'hidden',
-              position: 'relative', // Necessary for the Image to fit correctly
-              border: `2px solid ${theme.palette.primary.main}`, // Optional: Add a border for better visibility
-            }}
-          >
-            <Image
-              loader={imageKitLoader}
-              src="/logos/collegelogo"
-              alt="B. K. Birla College Logo"
-              layout="fill"
-              objectFit="cover"
-            />
+          <Box sx={{
+            display: 'flex', 
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 1,
+            flexDirection: {xs: 'column', sm: 'row'}
+          }}>
+            <Box 
+              sx={{
+                width: 100,
+                height: 100,
+                borderRadius: '50%', // This makes the avatar circular
+                overflow: 'hidden',
+                position: 'relative', // Necessary for the Image to fit correctly
+                border: `2px solid ${theme.palette.primary.main}`, // Optional: Add a border for better visibility
+              }}
+            >
+              <Image
+                loader={imageKitLoader}
+                src="/logos/collegelogo"
+                alt="B. K. Birla College Logo"
+                layout="fill"
+                objectFit="cover"
+              />
+            </Box>
+            <Typography variant="h4" align="center" color="textSecondary" >
+              B. K. Birla College of Arts, Science and Commerce
+            </Typography>
           </Box>
-          <Typography variant="h4" align="center" color="textSecondary">
-            B. K. Birla College of Arts, Science and Commerce
-          </Typography>
         </Box>
+        <Typography variant='h1'>
+          TechKshetra
+        </Typography>
+        <Typography variant="h6" align="center" color="textSecondary" paragraph>
+          Welcome to B. K. Birla College, Kalyan's first CS and IT club of technology, innovation and more...
+        </Typography>
       </Box>
 
       <Box mt={6}>
