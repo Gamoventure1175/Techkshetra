@@ -119,7 +119,7 @@ function AppAppBar() {
                   </Typography>
                 </MenuItem>
                 <MenuItem
-                  onClick={() => scrollToSection('events')}
+                  onClick={() => router.push('/events')}
                   sx={{ py: '6px', px: '12px' }}
                 >
                   <Typography variant="body2" color="text.primary">
@@ -226,10 +226,10 @@ function AppAppBar() {
                   >
                     <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
                   </Box>
-                  <MenuItem onClick={() => scrollToSection('/')}>
+                  <MenuItem onClick={() => router.push('/')}>
                     Home
                   </MenuItem>
-                  <MenuItem onClick={() => scrollToSection('events')}>
+                  <MenuItem onClick={() => router.push('events')}>
                     Events
                   </MenuItem>
                   <MenuItem onClick={() => router.push('/highlights')}>
