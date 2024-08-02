@@ -1,5 +1,3 @@
-// app/api/auth/verify-email/route.js
-
 import prisma from '@/libs/prisma';
 import { NextResponse } from 'next/server';
 
