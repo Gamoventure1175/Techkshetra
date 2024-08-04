@@ -80,7 +80,7 @@ const getDesignTokens = (mode) => ({
   palette: {
     mode,
     primary: {
-      light: brand[200],
+      light: '#F7B471',
       main: brand[500],
       dark: brand[800],
       contrastText: brand[50],
@@ -171,7 +171,7 @@ const getDesignTokens = (mode) => ({
       letterSpacing: -0.2,
       fontFamily: megrim.style.fontFamily,
       [breakpoints.up('xs')] : {
-        fontSize: 60,
+        fontSize: 50,
       },
       [breakpoints.up('sm')] : {
         fontSize: 72

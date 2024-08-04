@@ -15,21 +15,18 @@ export default function RootLayout({ children }) {
   const noNavFooter = ['/auth/signup', '/auth/signin', '/highlights', '/profile'];
 
   useEffect(() => {
-    // Check if the preloader has already been shown
     const hasSeenPreloader = localStorage.getItem('hasSeenPreloader');
 
     if (!hasSeenPreloader) {
-      // Show preloader if not seen before
       const timer = setTimeout(() => {
         setLoading(false);
         localStorage.setItem('hasSeenPreloader', 'true');
-      }, 5000); // Duration of the preloader
+      }, 3000);
 
       return () => {
         clearTimeout(timer);
       };
     } else {
-      // Skip preloader if already seen
       setLoading(false);
     }
   }, []);
