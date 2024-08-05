@@ -1,5 +1,30 @@
 const highlights = [
     {
+      title: 'Ideathon Competition',
+      images: [
+        '/ideathon/image (1)',
+        '/ideathon/image (2)',
+        '/ideathon/image (3)',
+        '/ideathon/image (5)',
+        '/ideathon/image (6)',
+        '/ideathon/image (9)',
+        '/ideathon/image (10)',
+        '/ideathon/image (11)',
+        '/ideathon/image (12)',
+        '/ideathon/image (13)',
+        '/ideathon/image (14)',
+        '/ideathon/image (15)',
+        '/ideathon/image (16)',
+        '/ideathon/image (17)',
+        '/ideathon/image (18)',
+        '/ideathon/image (19)',
+        '/ideathon/image (20)',
+        '/ideathon/image (21)',
+        '/ideathon/image (22)',
+        '/ideathon/image (23)',
+      ],
+    },
+    {
       title: 'Ganesh Chaturthi',
       images: [
         '/ganeshchaturthi/ganesha1',
@@ -46,6 +71,7 @@ const highlights = [
         '/blockchainevent/blockchain5',
       ],
     },
+    
 ];
 
 export default highlights;

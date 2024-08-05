@@ -18,16 +18,18 @@ import Image from 'next/image';
 import logo from '@/public/images/logot.png';
 import { useTheme } from '@/context/ThemeContext';
 import { useRouter } from 'next/navigation';
+import imageKitLoader from '@/libs/imagekitloader';
 
 const logoStyle = {
-  width: '50px',
+  width: '55px',
   height: 'auto',
   cursor: 'pointer',
+  display: 'block',
 };
 
 function AppAppBar() {
-  const { mode, toggleColorMode } = useTheme(); // Access theme from context
-  const { data: session, status } = useSession(); // Access session data
+  const { mode, toggleColorMode } = useTheme(); 
+  const { data: session, status } = useSession(); 
   const router = useRouter();
 
   const [open, setOpen] = React.useState(false);
@@ -93,6 +95,7 @@ function AppAppBar() {
                 theme.palette.mode === 'light'
                   ? '0 0 1px rgba(85, 166, 246, 0.1), 1px 1.5px 2px -1px rgba(85, 166, 246, 0.15), 4px 4px 12px -2.5px rgba(85, 166, 246, 0.15)'
                   : '0 0 1px rgba(2, 31, 59, 0.7), 1px 1.5px 2px -1px rgba(2, 31, 59, 0.65), 4px 4px 12px -2.5px rgba(2, 31, 59, 0.65)',
+              px: 3,
             })}
           >
             <Box
@@ -100,12 +103,14 @@ function AppAppBar() {
                 flexGrow: 1,
                 display: 'flex',
                 alignItems: 'center',
-                ml: '-18px',
                 px: 0,
               }}
             >
               <Image
-                src={logo}
+                src={ mode === 'light' ? '/logos/logolight' : '/logos/logodark'}
+                loader={imageKitLoader}
+                width={100}
+                height={100}
                 style={logoStyle}
                 alt="logo of sitemark"
               />

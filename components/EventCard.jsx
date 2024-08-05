@@ -22,7 +22,8 @@ const EventCard = forwardRef(({ event }, ref) => {
           overflow: 'hidden',
           backgroundColor: theme.palette.mode === 'light'
                               ? theme.palette.grey[50]
-                              : theme.palette.secondary.light
+                              : theme.palette.secondary.light,
+          width: '100%'
         })}>
           <CardMedia
             component="img"
@@ -31,7 +32,7 @@ const EventCard = forwardRef(({ event }, ref) => {
               height: 140, 
               width: '100%',
               objectFit: 'cover',
-              objectPosition: 'center'
+              objectPosition: 'center',
             }}
             image={event.image}
             alt={event.title}

@@ -1,10 +1,11 @@
-// app/components/Preloader.js
+'use client'
+
 import React from 'react';
 import { Box } from '@mui/material';
 import { motion } from 'framer-motion';
 import { styled } from '@mui/system';
 
-const PreloaderContainer = styled(Box)(({ theme }) => ({
+const PreloaderContainer = styled(motion.div)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -20,15 +21,21 @@ const PreloaderContainer = styled(Box)(({ theme }) => ({
 const Text = styled(motion.div)(({ theme }) => ({
   ...theme.typography.h1,
   color: 'white',
+  position: 'relative',
+  zIndex: 2,
 }));
 
 const Preloader = () => {
   return (
-    <PreloaderContainer>
+    <PreloaderContainer
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 0, top: '-100%' }}
+      transition={{duration: 1.5, delay: 1.5}}
+    >
       <Text
-        initial={{opacity: 0}}
-        animate={{ opacity: [0, 1, 0] }}
-        transition={{ duration: 2, ease: 'easeOut' }}
+        initial={{ opacity: 0, scale: 1 }}
+        animate={{ opacity: 1, scale: 1.2 }}
+        transition={{ duration: 1.5, ease: 'easeOut' }}
       >
         TechKshetra
       </Text>

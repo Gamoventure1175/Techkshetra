@@ -13,19 +13,27 @@ export default function RootLayout({ children }) {
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
   const noNavFooter = ['/auth/signup', '/auth/signin', '/highlights', '/profile'];
-
+  
   useEffect(() => {
-    const hasSeenPreloader = localStorage.getItem('hasSeenPreloader');
+    const preloaderTimeout = 4000;
+    const lastVisitKey = 'lastVisit';
+    const preloaderKey = 'hasSeenPreloader';
 
-    if (!hasSeenPreloader) {
+    const currentTimestamp = Date.now();
+    const lastVisitTimestamp = localStorage.getItem(lastVisitKey);
+    const hasSeenPreloader = localStorage.getItem(preloaderKey);
+
+    if (!hasSeenPreloader || !lastVisitTimestamp || currentTimestamp - lastVisitTimestamp > preloaderTimeout * 2) {
+      // Show preloader if:
+      // - The user hasn't seen the preloader (new session)
+      // - It's been a long time since the last visit (e.g., greater than twice the preloader timeout)
       const timer = setTimeout(() => {
         setLoading(false);
-        localStorage.setItem('hasSeenPreloader', 'true');
-      }, 3000);
+        localStorage.setItem(preloaderKey, 'true');
+        localStorage.setItem(lastVisitKey, currentTimestamp.toString());
+      }, preloaderTimeout);
 
-      return () => {
-        clearTimeout(timer);
-      };
+      return () => clearTimeout(timer);
     } else {
       setLoading(false);
     }
@@ -38,7 +46,7 @@ export default function RootLayout({ children }) {
           <ThemeProviderComponent>
             <CssBaseline />
             {loading && <Preloader />}
-            {!loading && (
+            { (
               <>
                 {!noNavFooter.includes(pathname) && <AppAppBar />}
                 {children}

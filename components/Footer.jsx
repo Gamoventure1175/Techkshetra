@@ -6,7 +6,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@/context/ThemeContext';
 
 const logoStyle = {
   width: '100%',
@@ -16,31 +16,32 @@ const logoStyle = {
 };
 
 function Footer() {
-  const theme = useTheme();
+
+  const {mode, toggleColorMode} = useTheme()
 
   return (
     <Box
       id='footer'
-      sx={{
+      sx={(theme) => ({
         width: '100%',
         px: { xs: 2, sm: 8, md: 12 },
         backgroundColor: 
           theme.palette.mode === 'light'
-          ? '#F7B471'
-          : '#0A66C2',
+          ? theme.palette.primary.light
+          : theme.palette.secondary.light,
         py: { xs: 2, sm: 4, md: 6 },
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-      }}
+      })}
     >
       <Stack direction={'row'} spacing={{ xs: 1, md: 2 }} sx={{ alignItems: 'center', mb: 2 }}>
         <Box
           sx={{
-            width: { xs: '40px', sm: '60px', md: '80px' },
-            height: { xs: '40px', sm: '60px', md: '80px' },
+            width: { xs: '40px', sm: '60px', md: '100px' },
+            height: '100%',
             borderRadius: '100%',
             overflow: 'hidden',
             display: 'flex',
@@ -50,7 +51,7 @@ function Footer() {
         >
           <Image
             loader={imageKitLoader}
-            src='logo.png'
+            src={ mode === 'light' ? '/logos/logolight' : '/logos/logodark' }
             width={50}
             height={50}
             style={logoStyle}
@@ -64,15 +65,14 @@ function Footer() {
       <Stack direction='row' spacing={2} mb={2}>
         <IconButton
           component="a"
-          href="https://www.instagram.com/techkshetra.birla?igsh=MWVwNTAyaXB1dzFrZg==" // Replace with your Instagram profile URL
-          target="_blank"
+          href="https://www.instagram.com/techkshetra.birla?igsh=MWVwNTAyaXB1dzFrZg=="
           rel="noopener noreferrer"
-          sx={{
+          sx={(theme) => ({
             color: theme.palette.text.primary,
             '&:hover': {
               color: theme.palette.primary.main,
             },
-          }}
+          })}
         >
           <InstagramIcon />
         </IconButton>
@@ -81,12 +81,12 @@ function Footer() {
           href="https://www.linkedin.com/in/yourprofile" // Replace with your LinkedIn profile URL
           target="_blank"
           rel="noopener noreferrer"
-          sx={{
+          sx={(theme) => ({
             color: theme.palette.text.primary,
             '&:hover': {
               color: theme.palette.primary.main,
             },
-          }}
+          })}
         >
           <LinkedInIcon />
         </IconButton>
@@ -95,12 +95,12 @@ function Footer() {
           href="https://www.facebook.com/yourprofile" // Replace with your Facebook profile URL
           target="_blank"
           rel="noopener noreferrer"
-          sx={{
+          sx={(theme) => ({
             color: theme.palette.text.primary,
             '&:hover': {
               color: theme.palette.primary.main,
             },
-          }}
+          })}
         >
           <FacebookIcon />
         </IconButton>
@@ -109,12 +109,12 @@ function Footer() {
           href="mailto:techkshetra.cs.it.club@gmail.com" // Replace with your email address
           target="_blank"
           rel="noopener noreferrer"
-          sx={{
+          sx={(theme) => ({
             color: theme.palette.text.primary,
             '&:hover': {
               color: theme.palette.primary.main,
             },
-          }}
+          })}
         >
           <EmailIcon />
         </IconButton>

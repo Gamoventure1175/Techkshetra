@@ -43,10 +43,10 @@ const AboutUs = () => {
               sx={{
                 width: 100,
                 height: 100,
-                borderRadius: '50%', // This makes the avatar circular
+                borderRadius: '50%',
                 overflow: 'hidden',
-                position: 'relative', // Necessary for the Image to fit correctly
-                border: `2px solid ${theme.palette.primary.main}`, // Optional: Add a border for better visibility
+                position: 'relative',
+                border: `2px solid ${theme.palette.primary.main}`,
               }}
             >
               <Image
