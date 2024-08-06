@@ -19,7 +19,7 @@ const CustomDay = ({ day, isEventDay, theme, onClick, ...rest }) => {
         width: 40,
         height: 40,
         bgcolor: isEventDay ? theme.palette.mode === 'light' ? theme.palette.primary.light : theme.palette.secondary.light : 'transparent',
-        color: isEventDay ? 'white' : theme.palette.text.primary,
+        
         cursor: isEventDay ? 'pointer' : 'default',
         ...rest.sx,
       }}
