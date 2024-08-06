@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import { SessionProvider } from 'next-auth/react';
 import Preloader from '@/components/Preloader';
 import { ThemeProviderComponent } from "@/context/ThemeContext";
+import '@/style/layout.css'
 
 export default function RootLayout({ children }) {
   const [loading, setLoading] = useState(true);
@@ -33,7 +34,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body>
+      <body className='noSelection'>
         <SessionProvider>
           <ThemeProviderComponent>
             <CssBaseline />

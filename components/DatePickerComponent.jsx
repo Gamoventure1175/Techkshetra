@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, useRef, useEffect } from 'react';
 import { LocalizationProvider, StaticDatePicker } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
@@ -7,6 +5,7 @@ import { Box, Typography, useTheme, TextField } from '@mui/material';
 import EventCard from '@/components/EventCard';
 import { events } from '@/data/events';
 import { DateTime } from 'luxon';
+import CustomDay from '@/components/CustomDay';
 
 const DatePickerComponent = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -50,35 +49,16 @@ const DatePickerComponent = () => {
         <StaticDatePicker
           displayStaticWrapperAs="desktop"
           value={selectedDate}
-          onChange={handleDateChange}
-          renderInput={(params) => <TextField {...params} />}
-          renderDay={(day, _value, DayComponentProps) => {
-            const formattedDate = day.toISODate();
-            const isEventDay = eventDates.has(formattedDate);
-
-            return (
-              <Box
-                component="div"
-                sx={{
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 36,
-                  height: 36,
-                  bgcolor: isEventDay
-                    ? theme.palette.secondary.main
-                    : 'transparent',
-                  color: isEventDay ? 'white' : theme.palette.text.primary,
-                  cursor: isEventDay ? 'pointer' : 'default',
-                  ...DayComponentProps.sx,
-                }}
-              >
-                <Typography variant="body2" sx={{ lineHeight: '36px' }}>
-                  {day.day}
-                </Typography>
-              </Box>
-            );
+          onChange={(newDate) => handleDateChange(newDate)}
+          slotProps={{
+            textField: { variant: 'outlined' },
+          }}
+          slots={{
+            day: (props) => {
+              const isEventDay = eventDates.has(props.day.toISODate());
+              const handleClick = () => handleDateChange(props.day);
+              return <CustomDay {...props} isEventDay={isEventDay} theme={theme} onClick={handleClick} />;
+            },
           }}
         />
       </LocalizationProvider>
