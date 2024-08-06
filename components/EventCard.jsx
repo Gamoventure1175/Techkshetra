@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 
 const EventCard = forwardRef(({ event }, ref) => {
   return (
-    <a href={event.registrationLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', }}>
+    <Box sx={{width: 'fit-content'}}>
+      <a href={event.registrationLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', }}>
       <motion.div
         key={event.id}
         ref={ref}
@@ -52,7 +53,8 @@ const EventCard = forwardRef(({ event }, ref) => {
           </Box>
         </Card>
       </motion.div>
-    </a>
+      </a>
+    </Box>
   );
 });
 

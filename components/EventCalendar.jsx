@@ -82,7 +82,7 @@ const EventCalendar = () => {
           </Box>
         )}
       />
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{ mt: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'  }}>
         {selectedEvents.length > 0 ? (
           selectedEvents.map(event => (
             <EventCard

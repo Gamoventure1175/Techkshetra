@@ -62,7 +62,7 @@ const DatePickerComponent = () => {
           }}
         />
       </LocalizationProvider>
-      <Box sx={{ mt: 2, width: '100%' }}>
+      <Box sx={{ mt: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         {selectedEvents.length > 0 ? (
           selectedEvents.map(event => (
             <div key={event.id} ref={eventRefs.current[event.id]}>
