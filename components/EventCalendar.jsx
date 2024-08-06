@@ -11,9 +11,8 @@ import '@/style/EventCalendar.css';
 
 const EventCalendar = () => {
   const [selectedEvents, setSelectedEvents] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
   const cardRefs = useRef({});
-  const theme = useTheme(); // Access the current theme
+  const theme = useTheme();
 
   useEffect(() => {
     if (selectedEvents.length > 0) {
@@ -29,7 +28,7 @@ const EventCalendar = () => {
       events.map(event => ({
         id: event.id,
         title: event.title,
-        date: event.date.toISOString().split('T')[0],
+        date: new Date(Date.UTC(event.date.getFullYear(), event.date.getMonth(), event.date.getDate())).toISOString().split('T')[0],
         extendedProps: {
           description: event.description,
           image: event.image,
@@ -41,9 +40,8 @@ const EventCalendar = () => {
   );
 
   const handleDateClick = (info) => {
-    setSelectedDate(info.dateStr);
     const filteredEvents = events.filter(
-      event => new Date(event.date).toDateString() === new Date(info.dateStr).toDateString()
+      event => new Date(event.date).toISOString().split('T')[0] === info.dateStr
     );
     setSelectedEvents(filteredEvents);
   };
@@ -63,25 +61,22 @@ const EventCalendar = () => {
         dateClick={handleDateClick}
         eventClick={handleEventClick}
         contentHeight="auto"
+        timeZone="UTC"
         headerToolbar={{
           left: 'prev,next today',
           center: 'title',
           right: null,
         }}
         eventContent={({ event }) => (
-          <Box sx={(theme) => ({
+          <Box sx={{
             backgroundColor: theme.palette.mode === 'light' ? theme.palette.primary.main : theme.palette.secondary.main,
             width: '100%',
             height: '100%',
             p: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
             cursor: 'pointer',
             borderRadius: 1,
-            fontSize: { xs: '0.75rem', sm: '0.875rem' }
-          })}>
-            <Typography variant="body2" sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          }}>
+            <Typography variant="body2" sx={{ whiteSpace: 'collapse', overflow: 'hidden'}}>
               {event.title}
             </Typography>
           </Box>

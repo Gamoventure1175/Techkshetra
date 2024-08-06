@@ -1,10 +1,10 @@
 import React, { forwardRef } from 'react';
-import { Box, Typography, Card, CardContent, CardMedia, } from '@mui/material';
+import { Box, Typography, Card, CardContent, CardMedia } from '@mui/material';
 import { motion } from 'framer-motion';
 
 const EventCard = forwardRef(({ event }, ref) => {
   return (
-    <a href={event.registrationLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none',}}>
+    <a href={event.registrationLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', }}>
       <motion.div
         key={event.id}
         ref={ref}
@@ -13,23 +13,23 @@ const EventCard = forwardRef(({ event }, ref) => {
         transition={{ duration: 0.5 }}
         whileHover={{ scale: 1.05, boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)' }}
         whileTap={{ scale: 0.95 }}
-        style={{borderRadius: '12px'}}
+        style={{ borderRadius: '12px' }}
       >
         <Card sx={(theme) => ({
-          display: 'flex', 
-          flexDirection: 'column', 
-          borderRadius: 2, 
+          display: 'flex',
+          flexDirection: 'column',
+          borderRadius: 2,
           overflow: 'hidden',
           backgroundColor: theme.palette.mode === 'light'
-                              ? theme.palette.grey[50]
-                              : theme.palette.secondary.light,
+            ? theme.palette.grey[50]
+            : theme.palette.secondary.light,
           width: '100%'
         })}>
           <CardMedia
             component="img"
             sx={{
               display: 'block',
-              height: 140, 
+              height: 140,
               width: '100%',
               objectFit: 'cover',
               objectPosition: 'center',

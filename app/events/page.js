@@ -1,16 +1,19 @@
-import React from 'react';
-import EventCalendar from '@/components/EventCalendar';
-import { Typography, Box } from '@mui/material';
+'use client'
 
-const App = () => {
+import React from 'react';
+import { useMediaQuery, useTheme, Box } from '@mui/material';
+import EventCalendar from '@/components/EventCalendar';
+import DatePickerComponent from '@/components/DatePickerComponent';
+
+const MainComponent = () => {
+  const theme = useTheme();
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <Box sx={{textAlign: 'center', py: {xs: 12, sm: 16}}}>
-      <Typography variant='h1' component='div' gutterBottom>
-        TechKshetra Events
-      </Typography>
-      <EventCalendar />
+      {isXs ? <DatePickerComponent /> : <EventCalendar />}
     </Box>
   );
 };
 
-export default App;
+export default MainComponent;

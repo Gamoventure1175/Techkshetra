@@ -250,13 +250,13 @@ const getDesignTokens = (mode) => ({
       fontWeight: 400,
       fontSize: 14,
       [breakpoints.up("xs")] : {
-        fontSize: 22
+        fontSize: 8
+      },
+      [breakpoints.up("sm")] : {
+        fontSize: 12
       },
       [breakpoints.up("md")] : {
         fontSize: 16
-      },
-      [breakpoints.up("xs")] : {
-        fontSize: 14
       },
     },
     caption: {
