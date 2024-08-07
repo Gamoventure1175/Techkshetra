@@ -67,7 +67,7 @@ const EventCalendar = () => {
         dateClick={handleDateClick}
         eventClick={handleEventClick}
         contentHeight="auto"
-        timeZone="UTC" 
+        timeZone="local" 
         headerToolbar={{
           left: 'prev,next today',
           center: 'title',
