@@ -19,13 +19,16 @@ const AboutUs = () => {
   return (
     <Container sx={{
         width: '100%',
-        my: { xs: 15, sm: 19, md: 24 },
+        my: { xs: 8, sm: 10, md: 12 },
         textAlign: 'center'
     }}>
       <Box component={motion.div} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}
         sx={{
             textAlign: 'center', 
-            my: { xs: 12, sm: 19 }
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
         }}
       >
         <Box my={4}>
@@ -62,9 +65,24 @@ const AboutUs = () => {
             </Typography>
           </Box>
         </Box>
-        <Typography variant='h1'>
-          TechKshetra
-        </Typography>
+        <Box 
+          sx={{
+            width: 250,
+            height: 250,
+            borderRadius: '50%',
+            overflow: 'hidden',
+            position: 'relative',
+            my: 2
+          }}
+        >
+          <Image 
+            loader={imageKitLoader}
+            src={"/logos/clublogo"}
+            alt='TechKshetra logo'
+            layout='fill'
+            objectFit='cover'
+          />
+        </Box>
         <Typography variant="h6" align="center" color="textSecondary" paragraph>
           Welcome to B. K. Birla College, Kalyan's first CS and IT club of technology, innovation and more...
         </Typography>

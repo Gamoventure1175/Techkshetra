@@ -78,6 +78,6 @@ export const events = [
     description: 'A quiz competition named Rapid Tech for the Department of CS and IT.',
     for: 'Department of CS and IT',
     image: 'https://ik.imagekit.io/uahycsra15/eventsimages/rapidtech',
-    registrationLink: 'https://example.com/register-rapid-tech' 
+    registrationLink: 'https://forms.gle/fyya5anayMnxG5JM6' 
   }
 ];
