@@ -49,6 +49,9 @@ const EventCard = forwardRef(({ event }, ref) => {
               <Typography variant="body2" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
                 {event.description}
               </Typography>
+              <Typography variant="subtitle2" color={'textSecondary'} sx={{ mt: 3 }}>
+                click on this card to register for this event
+              </Typography>
             </CardContent>
           </Box>
         </Card>

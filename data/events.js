@@ -3,10 +3,10 @@ export const events = [
     id: 1,
     title: 'MERN Stack Workshop: MongoDB',
     date: new Date(2024, 7, 10),
-    description: 'A hands-on workshop on MongoDB as part of the MERN stack for SY and TY (IT and CS) students.',
+    description: 'A hands-on workshop on MongoDB as part of the MERN stack for students of IT and CS department.',
     for: 'SY and TY (IT and CS)',
     image: 'https://ik.imagekit.io/uahycsra15/eventsimages/mongodb',
-    registrationLink: 'https://example.com/register-mern-mongodb' 
+    registrationLink: 'https://forms.gle/nZTpxPEoKuksd5se6' 
   },
   {
     id: 2,
@@ -19,9 +19,9 @@ export const events = [
   },
   {
     id: 3,
-    title: 'Pre-Independence Day Competition',
-    date: new Date(2024, 7, 14),
-    description: 'A competition to celebrate Pre-Independence Day for the Department of CS and IT.',
+    title: 'Independence Day Coding Competition',
+    date: new Date(2024, 7, 13),
+    description: 'An Independence Day themed coding competition for the Department of CS and IT.',
     for: 'Department of CS and IT',
     image: 'https://ik.imagekit.io/uahycsra15/eventsimages/independenceday',
     registrationLink: 'https://example.com/register-pre-independence' 
@@ -30,28 +30,28 @@ export const events = [
     id: 4,
     title: 'MERN Stack Workshop: Node.js',
     date: new Date(2024, 7, 17),
-    description: 'A hands-on workshop on Node.js as part of the MERN stack for SY and TY (IT and CS) students.',
+    description: 'A hands-on workshop on Node.js as part of the MERN stack for students of IT and CS department.',
     for: 'SY and TY (IT and CS)',
     image: 'https://ik.imagekit.io/uahycsra15/eventsimages/nodejs',
-    registrationLink: 'https://example.com/register-mern-nodejs' 
+    registrationLink: 'https://forms.gle/nZTpxPEoKuksd5se6' 
   },
   {
     id: 5,
     title: 'MERN Stack Workshop: Express.js',
     date: new Date(2024, 7, 24),
-    description: 'A hands-on workshop on Express.js as part of the MERN stack for SY and TY (IT and CS) students.',
+    description: 'A hands-on workshop on Express.js as part of the MERN stack for students of IT and CS department.',
     for: 'SY and TY (IT and CS)',
     image: 'https://ik.imagekit.io/uahycsra15/eventsimages/expressjs',
-    registrationLink: 'https://example.com/register-mern-expressjs' 
+    registrationLink: 'https://forms.gle/nZTpxPEoKuksd5se6' 
   },
   {
     id: 6,
     title: 'MERN Stack Workshop: React.js',
     date: new Date(2024, 7, 31),
-    description: 'A hands-on workshop on React.js as part of the MERN stack for SY and TY (IT and CS) students.',
+    description: 'A hands-on workshop on React.js as part of the MERN stack for students of IT and CS department.',
     for: 'SY and TY (IT and CS)',
     image: 'https://ik.imagekit.io/uahycsra15/eventsimages/reactjs',
-    registrationLink: 'https://example.com/register-mern-reactjs' 
+    registrationLink: 'https://forms.gle/nZTpxPEoKuksd5se6' 
   },
   {
     id: 7,

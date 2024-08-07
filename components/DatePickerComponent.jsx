@@ -1,7 +1,9 @@
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
 import { LocalizationProvider, StaticDatePicker } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
-import { Box, Typography, useTheme, TextField } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import EventCard from '@/components/EventCard';
 import { events } from '@/data/events';
 import { DateTime } from 'luxon';
@@ -20,6 +22,16 @@ const DatePickerComponent = () => {
     }, {});
   }, []);
 
+  useEffect(() => {
+    if (selectedEvents.length > 0) {
+      const firstEventId = selectedEvents[0].id;
+      const ref = eventRefs.current[firstEventId];
+      if (ref && ref.current) {
+        ref.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
+    }
+  }, [selectedEvents]);
+
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
     if (newDate) {
@@ -33,7 +45,7 @@ const DatePickerComponent = () => {
         const firstEventId = filteredEvents[0].id;
         const ref = eventRefs.current[firstEventId];
         if (ref && ref.current) {
-          ref.current.scrollIntoView({ behavior: 'smooth' });
+          ref.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
       }
     } else {
@@ -49,7 +61,7 @@ const DatePickerComponent = () => {
         <StaticDatePicker
           displayStaticWrapperAs="desktop"
           value={selectedDate}
-          onChange={(newDate) => handleDateChange(newDate)}
+          onChange={handleDateChange}
           slotProps={{
             textField: { variant: 'outlined' },
           }}
@@ -62,7 +74,7 @@ const DatePickerComponent = () => {
           }}
         />
       </LocalizationProvider>
-      <Box sx={{ mt: 2, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Box sx={{ mt: 2, width: '100%' }}>
         {selectedEvents.length > 0 ? (
           selectedEvents.map(event => (
             <div key={event.id} ref={eventRefs.current[event.id]}>

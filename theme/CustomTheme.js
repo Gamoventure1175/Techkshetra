@@ -240,6 +240,12 @@ const getDesignTokens = (mode) => ({
     },
     subtitle2: {
       fontSize: 16,
+      [breakpoints.up('xs')] : {
+        fontSize: 12,
+      },
+      [breakpoints.up('sm')] : {
+        fontSize: 16
+      },
     },
     body1: {
       fontWeight: 400,
