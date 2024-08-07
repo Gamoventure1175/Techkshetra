@@ -175,7 +175,7 @@ const teamMembers = [
     role: 'Security Head', 
     imagePath: '/members/securityhead2',
     description: "A hard-working and driven individual who isn't afraid to face a challenge. I'm passionate about my work and I know how to get the job done.", 
-    instagram: 'https://www.instagram.com/harshad_', 
+    instagram: 'https://www.instagram.com/harshad__jadhav__', 
     linkedin: 'http://www.linkedin.com/in/harshad-jadhav-b9969a231' 
   }
 ];
