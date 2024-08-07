@@ -24,24 +24,30 @@ const EventCalendar = () => {
   }, [selectedEvents]);
 
   const calendarEvents = useMemo(
-    () =>
-      events.map(event => ({
-        id: event.id,
-        title: event.title,
-        date: new Date(Date.UTC(event.date.getFullYear(), event.date.getMonth(), event.date.getDate())).toISOString().split('T')[0],
-        extendedProps: {
-          description: event.description,
-          image: event.image,
-          for: event.for,
-          registrationLink: event.registrationLink,
-        },
-      })),
+    () => {
+      const mappedEvents = events.map(event => {
+        const date = new Date(event.date);
+        const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().split('T')[0];
+        return {
+          id: event.id,
+          title: event.title,
+          date: localDate,
+          extendedProps: {
+            description: event.description,
+            image: event.image,
+            for: event.for,
+            registrationLink: event.registrationLink,
+          },
+        };
+      });
+      return mappedEvents;
+    },
     []
   );
 
   const handleDateClick = (info) => {
     const filteredEvents = events.filter(
-      event => new Date(event.date).toISOString().split('T')[0] === info.dateStr
+      event => new Date(new Date(event.date).getTime() - new Date(event.date).getTimezoneOffset() * 60000).toISOString().split('T')[0] === info.dateStr
     );
     setSelectedEvents(filteredEvents);
   };
@@ -61,7 +67,7 @@ const EventCalendar = () => {
         dateClick={handleDateClick}
         eventClick={handleEventClick}
         contentHeight="auto"
-        timeZone="UTC"
+        timeZone="UTC" 
         headerToolbar={{
           left: 'prev,next today',
           center: 'title',
