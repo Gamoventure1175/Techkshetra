@@ -150,7 +150,7 @@ const teamMembers = [
     name: 'Sanjana Patil', 
     role: 'Reporting Head', 
     imagePath: '/members/reportinghead1',
-    description: 'Extrovert🥱', 
+    description: 'As a creative and determined professional, I thrive on transforming challenges into opportunities.', 
     instagram: 'https://www.instagram.com/giggless_here?igsh=NWJmanVxem9mdnc5', 
     linkedin: 'https://www.linkedin.com/in/sanjana-patil-695663283?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app' 
   },
