@@ -8,7 +8,8 @@ import Image from 'next/image';
 import imageKitLoader from '@/libs/imagekitloader';
 import teamMembers from '@/data/teamMembers';
 import { useRouter } from 'next/navigation';
- 
+import TeamMemberCard from '@/components/TeamMemberCard'; // Import the new component
+
 const AboutUs = () => {
   const [showAll, setShowAll] = useState(false);
   const theme = useTheme();
@@ -17,71 +18,21 @@ const AboutUs = () => {
   const visibleMembers = showAll ? teamMembers : teamMembers.slice(0, 3); // Display the first 3 members initially
 
   return (
-    <Container sx={{
-        width: '100%',
-        my: { xs: 8, sm: 10, md: 12 },
-        textAlign: 'center'
-    }}>
+    <Container sx={{ width: '100%', my: { xs: 8, sm: 10, md: 12 }, textAlign: 'center' }}>
       <Box component={motion.div} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}
-        sx={{
-            textAlign: 'center', 
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center'
-        }}
+        sx={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
       >
         <Box my={4}>
-          <Typography variant="body1" align="center" color="textSecondary">
-            Powered By
-          </Typography>
-          <Box sx={{
-            display: 'flex', 
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 1,
-            flexDirection: {xs: 'column', sm: 'row'}
-          }}>
-            <Box 
-              sx={{
-                width: 100,
-                height: 100,
-                borderRadius: '50%',
-                overflow: 'hidden',
-                position: 'relative',
-                border: `2px solid ${theme.palette.primary.main}`,
-              }}
-            >
-              <Image
-                loader={imageKitLoader}
-                src="/logos/collegelogo"
-                alt="B. K. Birla College Logo"
-                layout="fill"
-                objectFit="cover"
-              />
+          <Typography variant="body1" align="center" color="textSecondary">Powered By</Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1, flexDirection: { xs: 'column', sm: 'row' } }}>
+            <Box sx={{ width: 100, height: 100, borderRadius: '50%', overflow: 'hidden', position: 'relative', border: `2px solid ${theme.palette.primary.main}`, }}>
+              <Image loader={imageKitLoader} src="/logos/collegelogo" alt="B. K. Birla College Logo" layout="fill" objectFit="cover" />
             </Box>
-            <Typography variant="h4" align="center" color="textSecondary" >
-              B. K. Birla College of Arts, Science and Commerce
-            </Typography>
+            <Typography variant="h4" align="center" color="textSecondary">B. K. Birla College of Arts, Science and Commerce</Typography>
           </Box>
         </Box>
-        <Box 
-          sx={{
-            width: 250,
-            height: 250,
-            borderRadius: '50%',
-            overflow: 'hidden',
-            position: 'relative',
-            my: 2
-          }}
-        >
-          <Image 
-            loader={imageKitLoader}
-            src={"/logos/clublogo"}
-            alt='TechKshetra logo'
-            layout='fill'
-            objectFit='cover'
-          />
+        <Box sx={{ width: 250, height: 250, borderRadius: '50%', overflow: 'hidden', position: 'relative', my: 2 }}>
+          <Image loader={imageKitLoader} src={"/logos/clublogo"} alt='TechKshetra logo' layout='fill' objectFit='cover' />
         </Box>
         <Typography variant="h6" align="center" color="textSecondary" paragraph>
           Welcome to B. K. Birla College, Kalyan's first CS and IT club of technology, innovation and more...
@@ -89,31 +40,11 @@ const AboutUs = () => {
       </Box>
 
       <Box mt={6}>
-        <Typography variant="h4" gutterBottom>
-          Meet Our Team
-        </Typography>
+        <Typography variant="h4" gutterBottom>Meet Our Team Members</Typography>
         <Grid container spacing={4}>
           {visibleMembers.map((member, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <Box component={motion.div} whileHover={{ scale: 1.05 }}>
-                <Image
-                  loader={imageKitLoader}
-                  src={member.imagePath}
-                  alt={member.name}
-                  width={128}
-                  height={128}
-                  style={{ borderRadius: '50%', margin: 'auto' }}
-                />
-                <Typography variant="h6" align="center" mt={2}>
-                  {member.name}
-                </Typography>
-                <Typography variant="body2" align="center" color="textSecondary">
-                  {member.role}
-                </Typography>
-                <Typography variant="body2" align="center" color="textSecondary">
-                  {member.email}
-                </Typography>
-              </Box>
+              <TeamMemberCard member={member} /> {/* Use the new component */}
             </Grid>
           ))}
         </Grid>
