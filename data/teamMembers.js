@@ -91,7 +91,7 @@ const teamMembers = [
     linkedin: 'https://www.linkedin.com/in/ai-digital-2753a72a1 ' 
   },
   { 
-    name: 'Amir Khan', 
+    name: 'Aamir Khan', 
     role: 'Technical Head', 
     imagePath: '/members/technicalhead1',
     description: 'An athletic coder who combines strong programming skills with a commitment to physical fitness .', 
@@ -120,7 +120,7 @@ const teamMembers = [
     imagePath: '/members/photography',
     description: 'I have a positive mindset.', 
     instagram: 'https://www.instagram.com/mayur__.k?igsh=MXd0cXRpOXQzODcyaA==', 
-    linkedin: null 
+    linkedin: 'https://in.linkedin.com/in/mayur-khairnar-96b060322'
   },
   { 
     name: 'Mandar Dongre', 

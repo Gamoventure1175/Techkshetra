@@ -7,15 +7,19 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import imageKitLoader from '@/libs/imagekitloader';
 import teamMembers from '@/data/teamMembers';
+import mentors from '@/data/mentors';
 import { useRouter } from 'next/navigation';
-import TeamMemberCard from '@/components/TeamMemberCard'; // Import the new component
+import TeamMemberCard from '@/components/TeamMemberCard'; 
+import MentorCard from '@/components/MentorCard'; // Import the MentorCard component
 
 const AboutUs = () => {
-  const [showAll, setShowAll] = useState(false);
+  const [showAllTeamMembers, setShowAllTeamMembers] = useState(false);
+  const [showAllMentors, setShowAllMentors] = useState(false);
   const theme = useTheme();
   const router = useRouter();
 
-  const visibleMembers = showAll ? teamMembers : teamMembers.slice(0, 3); // Display the first 3 members initially
+  const visibleTeamMembers = showAllTeamMembers ? teamMembers : teamMembers.slice(0, 3); // Display the first 3 members initially
+  const visibleMentors = showAllMentors ? mentors : mentors.slice(0, 3); // Display the first 3 mentors initially
 
   return (
     <Container sx={{ width: '100%', my: { xs: 8, sm: 10, md: 12 }, textAlign: 'center' }}>
@@ -31,8 +35,8 @@ const AboutUs = () => {
             <Typography variant="h4" align="center" color="textSecondary">B. K. Birla College of Arts, Science and Commerce</Typography>
           </Box>
         </Box>
-        <Box sx={{ width: 250, height: 250, borderRadius: '50%', overflow: 'hidden', position: 'relative', my: 2 }}>
-          <Image loader={imageKitLoader} src={"/logos/clublogo"} alt='TechKshetra logo' layout='fill' objectFit='cover' />
+        <Box sx={{ width: 300, height: 300, borderRadius: '50%', overflow: 'hidden', position: 'relative', my: 2 }}>
+          <Image loader={imageKitLoader} src={theme.palette.mode === 'light' ? '/logos/logo_with_text_light' : '/logos/logo_with_text_dark'} alt='TechKshetra logo' layout='fill' objectFit='cover' />
         </Box>
         <Typography variant="h6" align="center" color="textSecondary" paragraph>
           Welcome to B. K. Birla College, Kalyan's first CS and IT club of technology, innovation and more...
@@ -42,20 +46,20 @@ const AboutUs = () => {
       <Box mt={6}>
         <Typography variant="h4" gutterBottom>Meet Our Team Members</Typography>
         <Grid container spacing={4}>
-          {visibleMembers.map((member, index) => (
+          {visibleTeamMembers.map((member, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <TeamMemberCard member={member} /> {/* Use the new component */}
+              <TeamMemberCard member={member} /> {/* Use the TeamMemberCard component */}
             </Grid>
           ))}
         </Grid>
         <Box mt={4} textAlign="center">
-          {!showAll ? (
+          {!showAllTeamMembers ? (
             <Button
               variant="contained"
               color="primary"
               component={motion.button}
               whileHover={{ scale: 1.05 }}
-              onClick={() => setShowAll(true)}
+              onClick={() => setShowAllTeamMembers(true)}
             >
               View All Members
             </Button>
@@ -65,7 +69,7 @@ const AboutUs = () => {
               color="secondary"
               component={motion.button}
               whileHover={{ scale: 1.05 }}
-              onClick={() => setShowAll(false)}
+              onClick={() => setShowAllTeamMembers(false)}
             >
               Show Less
             </Button>
@@ -73,7 +77,41 @@ const AboutUs = () => {
         </Box>
       </Box>
 
-      <Box mt={6} textAlign="center">
+      <Box mt={6}>
+        <Typography variant="h4" gutterBottom>Meet Our Mentors</Typography>
+        <Grid container spacing={4}>
+          {visibleMentors.map((mentor, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <MentorCard mentor={mentor} /> {/* Use the MentorCard component */}
+            </Grid>
+          ))}
+        </Grid>
+        {/* <Box mt={4} textAlign="center">
+          {!showAllMentors ? (
+            <Button
+              variant="contained"
+              color="primary"
+              component={motion.button}
+              whileHover={{ scale: 1.05 }}
+              onClick={() => setShowAllMentors(true)}
+            >
+              View All Mentors
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="secondary"
+              component={motion.button}
+              whileHover={{ scale: 1.05 }}
+              onClick={() => setShowAllMentors(false)}
+            >
+              Show Less
+            </Button>
+          )}
+        </Box> */}
+      </Box>
+
+      <Box mt={10} textAlign="center">
         <Button
           variant="contained"
           color="primary"
@@ -82,7 +120,7 @@ const AboutUs = () => {
           href="mailto:techkshetra.cs.it.club@gmail.com"
           startIcon={<EmailIcon />}
         >
-          Contact Us
+          Email Us
         </Button>
       </Box>
     </Container>
