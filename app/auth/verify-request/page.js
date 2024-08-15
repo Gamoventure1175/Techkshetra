@@ -21,7 +21,7 @@ const VerifyRequestPage = () => {
   }, [session, router]);
 
   const handleOpenEmailApp = () => {
-    window.location.href = 'mailto:';
+    window.open('https://mail.google.com/', '_blank');
   };
 
   return (

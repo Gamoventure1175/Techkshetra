@@ -8,13 +8,21 @@ import { usePathname } from 'next/navigation';
 import { SessionProvider } from 'next-auth/react';
 import Preloader from '@/components/Preloader';
 import { ThemeProviderComponent } from "@/context/ThemeContext";
-import '@/style/layout.css'
+import '@/style/layout.css';
 import Head from 'next/head';
 
 export default function RootLayout({ children }) {
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
-  const noNavFooter = ['/auth/signup', '/auth/signin', '/highlights', '/profile', '/auth/verify-request'];
+  
+  // Regular expression to match any path starting with /auth/
+  const authPathRegex = /^\/auth\/.*/;
+  
+  // Specific paths that should not have AppAppBar and Footer
+  const noNavFooterPaths = ['/highlights', '/profile', '/profile/change-password'];
+
+  // Function to check if the pathname should exclude the nav and footer
+  const shouldExcludeNavFooter = authPathRegex.test(pathname) || noNavFooterPaths.includes(pathname);
 
   useEffect(() => {
     const hasSeenPreloader = localStorage.getItem('hasSeenPreloader');
@@ -47,11 +55,11 @@ export default function RootLayout({ children }) {
           <ThemeProviderComponent>
             <CssBaseline />
             {loading && <Preloader />}
-            { (
+            {(
               <>
-                {!noNavFooter.includes(pathname) && <AppAppBar />}
+                {!shouldExcludeNavFooter && <AppAppBar />}
                 {children}
-                {!noNavFooter.includes(pathname) && <Footer />}
+                {!shouldExcludeNavFooter && <Footer />}
               </>
             )}
           </ThemeProviderComponent>

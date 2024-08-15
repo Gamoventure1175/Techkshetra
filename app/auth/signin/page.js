@@ -3,12 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Button, TextField, Typography, Container, Box, Snackbar, Alert, useTheme, InputAdornment, IconButton } from '@mui/material';
+import { Button, TextField, Typography, Container, Box, Snackbar, Alert, useTheme, InputAdornment, IconButton, SnackbarContent } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Image from 'next/image';
 import imageKitLoader from '@/libs/imagekitloader';
 import HomeButton from '@/components/HomeButton';
+import Link from 'next/link';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -16,22 +17,23 @@ const SignIn = () => {
   const [error, setError] = useState('');
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [signupPrompt, setSignupPrompt] = useState(false); // State to handle signup prompt
   const { data: session, status } = useSession();
   const router = useRouter();
-  const theme = useTheme(); // Get current theme
+  const theme = useTheme();
 
   useEffect(() => {
-    // Enable button only when email and password are filled
     setIsButtonDisabled(!(email && password));
   }, [email, password]);
 
   useEffect(() => {
     if (status === 'authenticated') {
       if (session.user.emailVerified) {
-        router.push('/'); // Redirect to homepage or desired route after sign-in
+        router.push('/');
       } else {
         setError('Please verify your email before signing in.');
+        setShowSnackbar(true);
       }
     }
   }, [status, session, router]);
@@ -42,14 +44,10 @@ const SignIn = () => {
       email,
       password,
     });
-  
+
     if (result.error) {
       if (result.error.includes('User does not exist')) {
-        setError('User does not exist. Redirecting to sign-up page...');
-        setShowSnackbar(true);
-        setTimeout(() => {
-          router.push('/auth/signup');
-        }, 3000); // Redirect after 3 seconds to allow Snackbar message to be seen
+        setSignupPrompt(true); // Trigger the signup prompt Snackbar
       } else if (result.error.includes('Invalid password')) {
         setError('Invalid email or password.');
         setShowSnackbar(true);
@@ -61,10 +59,18 @@ const SignIn = () => {
         setShowSnackbar(true);
       }
     } else {
-      router.push('/'); // Redirect to homepage or desired route after successful sign-in
+      router.push('/');
     }
   };
-  
+
+  const handleCloseSnackbar = () => {
+    setShowSnackbar(false);
+    setSignupPrompt(false);
+  };
+
+  const handleSignupRedirect = () => {
+    router.push('/auth/signup');
+  };
 
   return (
     <Box sx={{
@@ -73,10 +79,7 @@ const SignIn = () => {
       alignItems: 'center',
       height: '100vh',
       width: '100%',
-      backgroundColor: 
-            theme.palette.mode === 'light'
-            ? '#F7B471'
-            : '#0A66C2', // Use theme background color
+      backgroundColor: theme.palette.mode === 'light' ? '#F7B471' : '#0A66C2',
     }}>
       <Container component="main" maxWidth="xs">
         <Box
@@ -84,12 +87,12 @@ const SignIn = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            backgroundColor: theme.palette.background.paper, // Use theme paper color
+            backgroundColor: theme.palette.background.paper,
             padding: { xs: theme.spacing(2), sm: theme.spacing(3) },
             borderRadius: theme.shape.borderRadius,
             boxShadow: theme.shadows[5],
             width: '100%',
-            position: 'relative', // Required for positioning Snackbar
+            position: 'relative',
           }}
         >
           <Box sx={{ width: 150, height: 150, borderRadius: '50%', overflow: 'hidden', position: 'relative', my: 1 }}>
@@ -118,7 +121,7 @@ const SignIn = () => {
             fullWidth
             name="password"
             label="Password"
-            type={showPassword ? 'text' : 'password'} // Toggle password visibility
+            type={showPassword ? 'text' : 'password'}
             id="password"
             autoComplete="current-password"
             value={password}
@@ -127,7 +130,7 @@ const SignIn = () => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+                    onClick={() => setShowPassword(!showPassword)}
                     edge="end"
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -136,6 +139,9 @@ const SignIn = () => {
               ),
             }}
           />
+          <Typography variant="subtitle2" sx={{textAlign: 'right', width: '100%', color: theme.palette.text.secondary}}>
+              <Link href="/auth/forgot-password" style={{ color: theme.palette.text.secondary }}>Forgot Password?</Link>
+          </Typography>
           <Button
             fullWidth
             variant="contained"
@@ -147,16 +153,38 @@ const SignIn = () => {
             Sign in
           </Button>
 
-          {showSnackbar && (
+          {showSnackbar && !signupPrompt && (
             <Snackbar
               open={showSnackbar}
-              autoHideDuration={3000} // Duration for Snackbar to stay visible
-              onClose={() => setShowSnackbar(false)}
+              autoHideDuration={3000}
+              onClose={handleCloseSnackbar}
               anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
-              <Alert onClose={() => setShowSnackbar(false)} severity="error">
+              <Alert onClose={handleCloseSnackbar} severity="error">
                 {error}
               </Alert>
+            </Snackbar>
+          )}
+
+          {signupPrompt && (
+            <Snackbar
+              open={signupPrompt}
+              onClose={handleCloseSnackbar}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+              <SnackbarContent
+                message="User does not exist. Do you want to sign up with this email?"
+                action={
+                  <>
+                    <Button color="secondary" size="small" onClick={handleSignupRedirect}>
+                      SIGN UP
+                    </Button>
+                    <Button color="primary" size="small" onClick={handleCloseSnackbar}>
+                      Enter Correct Email
+                    </Button>
+                  </>
+                }
+              />
             </Snackbar>
           )}
         </Box>
