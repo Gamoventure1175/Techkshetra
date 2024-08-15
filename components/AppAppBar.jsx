@@ -197,7 +197,17 @@ function AppAppBar() {
                     href="/auth/signin"
                     target="_self"
                   >
-                    Sign in
+                    Sign In
+                  </Button>
+                  <Button
+                    color="primary"
+                    variant="text"
+                    size="small"
+                    component="a"
+                    href="/auth/signup"
+                    target="_self"
+                  >
+                    Sign Up
                   </Button>
                 </>
               )}
@@ -282,7 +292,18 @@ function AppAppBar() {
                           href="/auth/signin"
                           sx={{ width: '100%' }}
                         >
-                          Sign in
+                          Sign In
+                        </Button>
+                      </MenuItem>
+                      <MenuItem>
+                        <Button
+                          color="primary"
+                          variant="text"
+                          component="a"
+                          href="/auth/signup"
+                          sx={{ width: '100%' }}
+                        >
+                          Sign Up
                         </Button>
                       </MenuItem>
                     </>

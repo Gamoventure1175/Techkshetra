@@ -14,7 +14,6 @@ const HomeButton = () => {
       sx={(theme) => ({
         position: 'fixed',
         bottom: 0,
-        left: 0,
         mb: 2,
         left: '50%',
         transform: 'translate(-50%)',

@@ -50,20 +50,23 @@ model Session {
 
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?   @unique
-  password      String?   // Optional field for credentials-based auth
-  emailVerified DateTime?
+  name          String
+  email         String    @unique
+  password      String
+  userType      String    // "student" or "visitor"
+  studentId     String?   // Nullable field, only for students
+  emailVerified DateTime? // Add this field to check if the email is verified
   image         String?
   accounts      Account[]
   sessions      Session[]
 }
 
 model VerificationToken {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId // Primary key, auto-generated
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   identifier  String
   token       String    @unique
-  expires     DateTime  // Use DateTime for storing expiration dates
-  
+  expires     DateTime
+  // The @@unique directive ensures that the combination of identifier and token is unique
   @@unique([identifier, token])
 }
+
