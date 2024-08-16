@@ -54,6 +54,8 @@ export async function sendVerificationEmail(email) {
 
   const verificationUrl = `${process.env.NEXTAUTH_URL}/api/auth/verify?token=${token}&email=${email}`;
 
+  const logoUrl = `https://ik.imagekit.io/uahycsra15/logos/logowithbackground`;
+
   await transporter.sendMail({
     from: process.env.EMAIL_SERVER_USER,
     to: email,
