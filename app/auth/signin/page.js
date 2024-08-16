@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Button, TextField, Typography, Container, Box, Snackbar, Alert, useTheme, InputAdornment, IconButton, SnackbarContent } from '@mui/material';
+import { Button, TextField, Typography, Container, Box, Snackbar, Alert, useTheme, InputAdornment, IconButton, SnackbarContent, CircularProgress } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Image from 'next/image';
@@ -19,6 +19,7 @@ const SignIn = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [signupPrompt, setSignupPrompt] = useState(false); // State to handle signup prompt
+  const [isLoading, setIsLoading] = useState(false); // State to manage loading
   const { data: session, status } = useSession();
   const router = useRouter();
   const theme = useTheme();
@@ -39,11 +40,14 @@ const SignIn = () => {
   }, [status, session, router]);
 
   const handleSignIn = async () => {
+    setIsLoading(true); // Start loading
     const result = await signIn('credentials', {
       redirect: false,
       email,
       password,
     });
+
+    setIsLoading(false); // Stop loading
 
     if (result.error) {
       if (result.error.includes('User does not exist')) {
@@ -147,10 +151,12 @@ const SignIn = () => {
             variant="contained"
             color="primary"
             onClick={handleSignIn}
-            disabled={isButtonDisabled}
-            sx={{ mt: 3, mb: 2 }}
+            disabled={isButtonDisabled || isLoading} // Disable the button during loading
+            sx={{ mt: 3, mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
-            Sign in
+            {isLoading ? (
+              <CircularProgress size={24} sx={{ color: 'white', mr: 2 }} /> // Spinner
+            ) : 'Sign in'}
           </Button>
 
           {showSnackbar && !signupPrompt && (

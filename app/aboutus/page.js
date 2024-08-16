@@ -22,8 +22,12 @@ const AboutUs = () => {
   const visibleMentors = showAllMentors ? mentors : mentors.slice(0, 3); // Display the first 3 mentors initially
 
   return (
-    <Container sx={{ width: '100%', my: { xs: 8, sm: 10, md: 12 }, textAlign: 'center' }}>
-      <Box component={motion.div} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}
+    <Container component={motion.div}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }} 
+    sx={{ width: '100%', my: { xs: 8, sm: 10, md: 12 }, textAlign: 'center' }}>
+      <Box 
         sx={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
       >
         <Box my={4}>
@@ -86,29 +90,6 @@ const AboutUs = () => {
             </Grid>
           ))}
         </Grid>
-        {/* <Box mt={4} textAlign="center">
-          {!showAllMentors ? (
-            <Button
-              variant="contained"
-              color="primary"
-              component={motion.button}
-              whileHover={{ scale: 1.05 }}
-              onClick={() => setShowAllMentors(true)}
-            >
-              View All Mentors
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              color="secondary"
-              component={motion.button}
-              whileHover={{ scale: 1.05 }}
-              onClick={() => setShowAllMentors(false)}
-            >
-              Show Less
-            </Button>
-          )}
-        </Box> */}
       </Box>
 
       <Box mt={10} textAlign="center">

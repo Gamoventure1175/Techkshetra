@@ -25,12 +25,13 @@ export default function RootLayout({ children }) {
   const shouldExcludeNavFooter = authPathRegex.test(pathname) || noNavFooterPaths.includes(pathname);
 
   useEffect(() => {
-    const hasSeenPreloader = localStorage.getItem('hasSeenPreloader');
+    const hasSeenPreloader = sessionStorage.getItem('hasSeenPreloader');
 
-    if (!hasSeenPreloader) {
+    // Show preloader only on the home page and if it hasn't been seen before
+    if (!hasSeenPreloader && pathname === '/') {
       const timer = setTimeout(() => {
         setLoading(false);
-        localStorage.setItem('hasSeenPreloader', 'true');
+        sessionStorage.setItem('hasSeenPreloader', 'true');
       }, 4000);
 
       return () => {
@@ -39,7 +40,7 @@ export default function RootLayout({ children }) {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [pathname]);
 
   return (
     <html lang="en">
@@ -55,7 +56,7 @@ export default function RootLayout({ children }) {
           <ThemeProviderComponent>
             <CssBaseline />
             {loading && <Preloader />}
-            {(
+            {!loading && (
               <>
                 {!shouldExcludeNavFooter && <AppAppBar />}
                 {children}

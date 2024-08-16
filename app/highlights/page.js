@@ -18,11 +18,13 @@ const HighlightsPage = () => {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [activeSection, setActiveSection] = useState(highlights[0].title);
+  const [selectedImage, setSelectedImage] = useState(null);
 
+  // Debounced interval for smoother image transitions
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % allImages.length);
-    }, 5000); // Change image every 5 seconds
+    }, 10000); // Change image every 10 seconds
 
     return () => clearInterval(interval);
   }, [allImages.length]);
@@ -60,8 +62,20 @@ const HighlightsPage = () => {
     }),
   };
 
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+  };
+
+  const handleCloseImage = () => {
+    setSelectedImage(null);
+  };
+
   return (
     <Container
+      component={motion.div}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
       sx={{
         textAlign: "center",
         pb: 10, // Add padding-bottom to make space for the tab component
@@ -105,9 +119,11 @@ const HighlightsPage = () => {
               alt="Slideshow"
               layout="fill"
               objectFit="cover"
-              priority
+              priority={currentImageIndex === 0}  // Priority only for the first image
               placeholder="blur"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAiIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzdHlsZT4udHdpc3RlZCB7IGZpbGw6I0Y3QjQ3MTsgc3Ryb2tlOm5vbmU7IHN0cm9rZS13aWR0aDoycHg7IHN0cm9rZS1saW5lY2FwOiJyb3VuZCI7IHN0cm9rZS1kYXRhOiJ1cmwoIzAwMDAsIj4iLz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAiLz48cmVjdCB4PSI0MCIgeT0iNDAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJsaWdodGJsdWU7Ii8+PHJlY3QgeD0iNDAiIHk9IjAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJsaWdodGJsZXU7Ii8+PC9zdHlsZT4KPC9zdmc+Cg=="
+              sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw"  // Responsive image sizes
+              loading={currentImageIndex === 0 ? "eager" : "lazy"}  // Lazy loading for non-first images
             />
           </motion.div>
         </AnimatePresence>
@@ -143,7 +159,8 @@ const HighlightsPage = () => {
                     animate="visible"
                     exit="hidden"
                     variants={galleryVariants}
-                    className="gallery-item"
+                    className={`gallery-item ${selectedImage === image ? 'selected' : ''}`}
+                    onClick={() => handleImageClick(image)}
                   >
                     <Image
                       loader={imageKitLoader}
@@ -152,7 +169,7 @@ const HighlightsPage = () => {
                       width={600}
                       height={400}
                       style={{ objectFit: 'cover' }}
-                      priority
+                      priority={imgIndex === 0}  // Prioritize the first image
                     />
                   </motion.div>
                 ))}
@@ -162,7 +179,23 @@ const HighlightsPage = () => {
         )
       ))}
 
-      {/* Fixed Tab Component */}
+      {/* Image Overlay */}
+      {selectedImage && (
+        <div className="overlay" onClick={handleCloseImage}>
+          <div className="enlarged-image">
+            <Image
+              loader={imageKitLoader}
+              src={selectedImage}
+              alt="Enlarged"
+              layout="fill"
+              objectFit="contain"
+              priority
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Bottom Navigation */}
       <HomeButton />
     </Container>
   );

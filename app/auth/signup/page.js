@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Box, Button, TextField, MenuItem, Typography, Container, Snackbar, Alert, useTheme, InputAdornment, IconButton } from '@mui/material';
+import { Box, Button, TextField, MenuItem, Typography, Container, Snackbar, Alert, useTheme, InputAdornment, IconButton, CircularProgress } from '@mui/material';
 import Image from 'next/image';
 import imageKitLoader from '@/libs/imagekitloader';
 import HomeButton from '@/components/HomeButton';
@@ -21,6 +21,7 @@ const Signup = () => {
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // State to control loading loop visibility
   const router = useRouter();
   const theme = useTheme(); // Get current theme
 
@@ -36,6 +37,7 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading loop
 
     const response = await fetch('/api/auth/signup', {
       method: 'POST',
@@ -44,6 +46,8 @@ const Signup = () => {
     });
 
     const result = await response.json();
+    setIsLoading(false); // Stop loading loop regardless of the result
+
     if (result.error) {
       if (result.error.includes('already exists')) {
         setError('User already exists with the same email. Redirecting to sign-in page...');
@@ -53,6 +57,7 @@ const Signup = () => {
         }, 3000); // Redirect after 3 seconds to allow Snackbar message to be seen
       } else {
         setError(result.error);
+        setShowSnackbar(true);
       }
     } else {
       router.push('/auth/verify-request');
@@ -89,9 +94,9 @@ const Signup = () => {
             position: 'relative', // Required for positioning Snackbar
           }}
         >
-            <Box sx={{ width: 100, height: 100, borderRadius: '50%', overflow: 'hidden', position: 'relative', my: 1 }}>
-                <Image loader={imageKitLoader} src={theme.palette.mode === 'light' ? '/logos/logolight' : '/logos/logodark'} alt='TechKshetra logo' layout='fill' objectFit='cover' />
-            </Box>
+          <Box sx={{ width: 100, height: 100, borderRadius: '50%', overflow: 'hidden', position: 'relative', my: 1 }}>
+            <Image loader={imageKitLoader} src={theme.palette.mode === 'light' ? '/logos/logolight' : '/logos/logodark'} alt='TechKshetra logo' layout='fill' objectFit='cover' />
+          </Box>
 
           <Typography component="h1" variant="h3">
             Sign Up
@@ -188,6 +193,27 @@ const Signup = () => {
           )}
         </Box>
       </Container>
+      
+      {/* Full-Screen Loading Overlay */}
+      {isLoading && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)', // Semi-transparent background
+            zIndex: 1300, // Ensure it is above other content
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CircularProgress color="inherit" size={60} />
+        </Box>
+      )}
+
       <HomeButton />
     </Box>
   );
