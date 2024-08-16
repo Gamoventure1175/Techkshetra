@@ -1,75 +1,26 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { signIn, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { Button, TextField, Typography, Container, Box, Snackbar, Alert, useTheme, InputAdornment, IconButton, SnackbarContent } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useState } from 'react';
+import { TextField, Button, Typography, Box, Container, useTheme } from '@mui/material';
 import Image from 'next/image';
+import { signIn } from './actions'; // Import server action
 import imageKitLoader from '@/libs/imagekitloader';
 import HomeButton from '@/components/HomeButton';
-import Link from 'next/link';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [showSnackbar, setShowSnackbar] = useState(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-  const [signupPrompt, setSignupPrompt] = useState(false); // State to handle signup prompt
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const [message, setMessage] = useState('');
   const theme = useTheme();
 
-  useEffect(() => {
-    setIsButtonDisabled(!(email && password));
-  }, [email, password]);
-
-  useEffect(() => {
-    if (status === 'authenticated') {
-      if (session.user.emailVerified) {
-        router.push('/');
-      } else {
-        setError('Please verify your email before signing in.');
-        setShowSnackbar(true);
-      }
-    }
-  }, [status, session, router]);
-
   const handleSignIn = async () => {
-    const result = await signIn('credentials', {
-      redirect: false,
-      email,
-      password,
-    });
+    const result = await signIn({ email, password });
 
-    if (result.error) {
-      if (result.error.includes('User does not exist')) {
-        setSignupPrompt(true); // Trigger the signup prompt Snackbar
-      } else if (result.error.includes('Invalid password')) {
-        setError('Invalid email or password.');
-        setShowSnackbar(true);
-      } else if (result.error.includes('Email not verified')) {
-        setError('Please verify your email before signing in.');
-        setShowSnackbar(true);
-      } else {
-        setError('An unknown error occurred.');
-        setShowSnackbar(true);
-      }
+    if (result.success) {
+      // Redirect to home or any desired page
     } else {
-      router.push('/');
+      setMessage(result.error || 'Failed to sign in');
     }
-  };
-
-  const handleCloseSnackbar = () => {
-    setShowSnackbar(false);
-    setSignupPrompt(false);
-  };
-
-  const handleSignupRedirect = () => {
-    router.push('/auth/signup');
   };
 
   return (
@@ -100,16 +51,14 @@ const SignIn = () => {
           </Box>
 
           <Typography component="h1" variant="h2">
-            Sign in
+            Sign In
           </Typography>
 
           <TextField
             margin="normal"
             required
             fullWidth
-            id="email"
             label="Email Address"
-            name="email"
             autoComplete="email"
             autoFocus
             value={email}
@@ -119,73 +68,26 @@ const SignIn = () => {
             margin="normal"
             required
             fullWidth
-            name="password"
             label="Password"
-            type={showPassword ? 'text' : 'password'}
-            id="password"
+            type="password"
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
           />
-          <Typography variant="subtitle2" sx={{textAlign: 'right', width: '100%', color: theme.palette.text.secondary}}>
-              <Link href="/auth/forgot-password" style={{ color: theme.palette.text.secondary }}>Forgot Password?</Link>
-          </Typography>
           <Button
             fullWidth
             variant="contained"
             color="primary"
             onClick={handleSignIn}
-            disabled={isButtonDisabled}
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign in
+            Sign In
           </Button>
 
-          {showSnackbar && !signupPrompt && (
-            <Snackbar
-              open={showSnackbar}
-              autoHideDuration={3000}
-              onClose={handleCloseSnackbar}
-              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            >
-              <Alert onClose={handleCloseSnackbar} severity="error">
-                {error}
-              </Alert>
-            </Snackbar>
-          )}
-
-          {signupPrompt && (
-            <Snackbar
-              open={signupPrompt}
-              onClose={handleCloseSnackbar}
-              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            >
-              <SnackbarContent
-                message="User does not exist. Do you want to sign up with this email?"
-                action={
-                  <>
-                    <Button color="secondary" size="small" onClick={handleSignupRedirect}>
-                      SIGN UP
-                    </Button>
-                    <Button color="primary" size="small" onClick={handleCloseSnackbar}>
-                      Enter Correct Email
-                    </Button>
-                  </>
-                }
-              />
-            </Snackbar>
+          {message && (
+            <Typography color="error" sx={{ mt: 2 }}>
+              {message}
+            </Typography>
           )}
         </Box>
         <HomeButton />

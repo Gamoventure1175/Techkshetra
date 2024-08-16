@@ -1,14 +1,17 @@
+'use server';
+
 import prisma from '@/libs/prisma';
 import { sendPasswordResetEmail } from '@/libs/email';
 import crypto from 'crypto';
+import { NextResponse } from 'next/server';
 
-export async function POST(req, res) {
-  const { email } = await req.json();
+export async function POST(request) {
+  const { email } = await request.json();
 
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
-    return new Response(JSON.stringify({ message: 'User not found' }), { status: 404 });
+    return NextResponse.json({ message: 'User not found' }, { status: 404 });
   }
 
   const token = crypto.randomBytes(20).toString('hex');
@@ -24,5 +27,5 @@ export async function POST(req, res) {
 
   await sendPasswordResetEmail(email, token);
 
-  return new Response(JSON.stringify({ message: 'Password reset email sent' }), { status: 200 });
+  return NextResponse.json({ message: 'Password reset email sent' }, { status: 200 });
 }

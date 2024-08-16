@@ -1,8 +1,10 @@
+'use server';
+
 import prisma from '@/libs/prisma';
 import { NextResponse } from 'next/server';
 
-export async function GET(req) {
-  const { searchParams } = new URL(req.url);
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
   const token = searchParams.get('token');
   const email = searchParams.get('email');
 

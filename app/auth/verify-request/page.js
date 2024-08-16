@@ -1,51 +1,82 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { Container, Typography, Box, Button } from '@mui/material';
-import Image from 'next/image';
-import imageKitLoader from '@/libs/imagekitloader';
-import { useTheme } from '@mui/material';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import { Button, Typography, Box, Container, useTheme } from '@mui/material';
+import Image from 'next/image';
+import { verifyEmail } from './actions'; // Import server action
+import imageKitLoader from '@/libs/imagekitloader';
+import HomeButton from '@/components/HomeButton';
 
-const VerifyRequestPage = () => {
-  const theme = useTheme();
+const VerifyRequest = () => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const [message, setMessage] = useState('');
+  const theme = useTheme();
 
-  useEffect(() => {
-    if (session?.user?.emailVerified) {
-      router.push('/'); // Redirect to homepage if email is verified
+  const handleVerifyRequest = async () => {
+    const result = await verifyEmail(); // Assumes that the verification token is handled server-side
+
+    if (result.success) {
+      router.push('/');
+    } else {
+      setMessage(result.error || 'Verification failed');
     }
-  }, [session, router]);
-
-  const handleOpenEmailApp = () => {
-    window.open('https://mail.google.com/', '_blank');
   };
 
   return (
-    <Container sx={{ display: 'flex', height: '100vh', textAlign: 'center', justifyContent: 'center', alignItems: "center", flexDirection: 'column' }}>
-      <Box sx={{ width: 200, height: 200, borderRadius: '50%', overflow: 'hidden', position: 'relative', my: 1 }}>
-        <Image loader={imageKitLoader} src={theme.palette.mode === 'light' ? '/logos/logolight' : '/logos/logodark'} alt='TechKshetra logo' layout='fill' objectFit='cover' />
-      </Box>
-      <Box>
-        <Typography component='h1' variant='h2'>Check your email</Typography>
-        <Typography component='h2' variant='subtitle1'>
-          We have sent you a verification link to your email. Please follow the instructions to verify your email address.
-        </Typography>
-        <Button 
-          variant="contained"
-          color="primary"
-          startIcon={<MailOutlineIcon />}
-          onClick={handleOpenEmailApp}
-          sx={{ mt: 2 }}
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
+      width: '100%',
+      backgroundColor: theme.palette.mode === 'light' ? '#F7B471' : '#0A66C2',
+    }}>
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            backgroundColor: theme.palette.background.paper,
+            padding: { xs: theme.spacing(2), sm: theme.spacing(3) },
+            borderRadius: theme.shape.borderRadius,
+            boxShadow: theme.shadows[5],
+            width: '100%',
+            position: 'relative',
+          }}
         >
-          Open Email App
-        </Button>
-      </Box>
-    </Container>
+          <Box sx={{ width: 150, height: 150, borderRadius: '50%', overflow: 'hidden', position: 'relative', my: 1 }}>
+            <Image loader={imageKitLoader} src={theme.palette.mode === 'light' ? '/logos/logolight' : '/logos/logodark'} alt='TechKshetra logo' layout='fill' objectFit='cover' />
+          </Box>
+
+          <Typography component="h1" variant="h4">
+            Please verify your email address
+          </Typography>
+
+          <Typography sx={{ mt: 2, textAlign: 'center' }}>
+            We have sent an email to your email address. Please click on the verification link to proceed.
+          </Typography>
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleVerifyRequest}
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Resend Verification Email
+          </Button>
+
+          {message && (
+            <Typography color="error" sx={{ mt: 2 }}>
+              {message}
+            </Typography>
+          )}
+        </Box>
+        <HomeButton />
+      </Container>
+    </Box>
   );
 };
 
-export default VerifyRequestPage;
+export default VerifyRequest;

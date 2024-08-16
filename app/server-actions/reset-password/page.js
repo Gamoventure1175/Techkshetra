@@ -1,8 +1,11 @@
+'use server';
+
 import prisma from '@/libs/prisma';
 import bcrypt from 'bcryptjs';
+import { NextResponse } from 'next/server';
 
-export async function POST(req, res) {
-  const { token, password } = await req.json();
+export async function POST(request) {
+  const { token, password } = await request.json();
 
   const user = await prisma.user.findFirst({
     where: {
@@ -12,7 +15,7 @@ export async function POST(req, res) {
   });
 
   if (!user) {
-    return new Response(JSON.stringify({ message: 'Token is invalid or expired' }), { status: 400 });
+    return NextResponse.json({ message: 'Token is invalid or expired' }, { status: 400 });
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -26,5 +29,5 @@ export async function POST(req, res) {
     },
   });
 
-  return new Response(JSON.stringify({ message: 'Password has been reset' }), { status: 200 });
+  return NextResponse.json({ message: 'Password has been reset' }, { status: 200 });
 }

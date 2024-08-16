@@ -6,6 +6,7 @@ import { TextField, Button, Box, Typography, Container, useTheme, InputAdornment
 import Image from 'next/image';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { handleResetPassword } from './actions'; // Import server action
 import imageKitLoader from '@/libs/imagekitloader';
 import HomeButton from '@/components/HomeButton';
 
@@ -19,24 +20,18 @@ const ResetPassword = ({ params }) => {
   const { token } = params;
   const theme = useTheme();
 
-  const handleResetPassword = async () => {
+  const handleResetPasswordClick = async () => {
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
 
-    const response = await fetch('/api/auth/reset-password', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token, password }),
-    });
+    const result = await handleResetPassword(token, password);
 
-    const data = await response.json();
-
-    if (response.ok) {
+    if (result.success) {
       router.push('/auth/signin');
     } else {
-      setError(data.message || 'Failed to reset password');
+      setError(result.error || 'Failed to reset password');
     }
   };
 
@@ -47,10 +42,7 @@ const ResetPassword = ({ params }) => {
       alignItems: 'center',
       height: '100vh',
       width: '100%',
-      backgroundColor: 
-            theme.palette.mode === 'light'
-            ? '#F7B471'
-            : '#0A66C2',
+      backgroundColor: theme.palette.mode === 'light' ? '#F7B471' : '#0A66C2',
     }}>
       <Container component="main" maxWidth="xs">
         <Box
@@ -120,7 +112,7 @@ const ResetPassword = ({ params }) => {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleResetPassword}
+            onClick={handleResetPasswordClick}
             sx={{ mt: 3, mb: 2 }}
           >
             Reset Password

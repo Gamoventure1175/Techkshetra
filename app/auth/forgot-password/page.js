@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { TextField, Button, Typography, Box, Container, useTheme } from '@mui/material';
 import Image from 'next/image';
+import { sendForgotPasswordEmail } from './actions'; // Import server action
 import imageKitLoader from '@/libs/imagekitloader';
 import HomeButton from '@/components/HomeButton';
 
@@ -12,14 +13,13 @@ const ForgotPassword = () => {
   const theme = useTheme();
 
   const handleForgotPassword = async () => {
-    const response = await fetch('/api/auth/forgot-password', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    });
+    const result = await sendForgotPasswordEmail(email);
 
-    const data = await response.json();
-    setMessage(response.ok ? 'Password reset email sent' : data.message || 'Failed to send password reset email');
+    if (result.success) {
+      setMessage('Password reset email sent');
+    } else {
+      setMessage(result.error || 'Failed to send password reset email');
+    }
   };
 
   return (
@@ -29,10 +29,7 @@ const ForgotPassword = () => {
       alignItems: 'center',
       height: '100vh',
       width: '100%',
-      backgroundColor: 
-            theme.palette.mode === 'light'
-            ? '#F7B471'
-            : '#0A66C2',
+      backgroundColor: theme.palette.mode === 'light' ? '#F7B471' : '#0A66C2',
     }}>
       <Container component="main" maxWidth="xs">
         <Box
