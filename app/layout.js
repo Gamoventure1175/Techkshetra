@@ -1,46 +1,67 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CssBaseline from "@mui/material/CssBaseline";
 import AppAppBar from "@/components/AppAppBar";
 import Footer from '@/components/Footer';
 import { usePathname } from 'next/navigation';
 import { SessionProvider } from 'next-auth/react';
-import Preloader from '@/components/Preloader';
+import ScrollLogoAnimation from '@/components/ScrollLogoAnimation';
 import { ThemeProviderComponent } from "@/context/ThemeContext";
 import '@/style/layout.css';
 import Head from 'next/head';
+import { motion, AnimatePresence } from 'framer-motion';
+import { initLenis } from '@/libs/lenis';
+import Preloader from '@/components/Preloader';
 
 export default function RootLayout({ children }) {
   const [loading, setLoading] = useState(true);
+  const [showScrollAnimation, setShowScrollAnimation] = useState(false);
+  const [hasVisitedHomePage, setHasVisitedHomePage] = useState(false);
   const pathname = usePathname();
-  
-  // Regular expression to match any path starting with /auth/
-  const authPathRegex = /^\/auth\/.*/;
-  
-  // Specific paths that should not have AppAppBar and Footer
-  const noNavFooterPaths = ['/highlights', '/profile', '/profile/change-password'];
+  const lenisRef = useRef(null);
 
-  // Function to check if the pathname should exclude the nav and footer
+  const authPathRegex = /^\/auth\/.*/;
+  const noNavFooterPaths = ['/highlights', '/profile', '/profile/change-password'];
   const shouldExcludeNavFooter = authPathRegex.test(pathname) || noNavFooterPaths.includes(pathname);
 
   useEffect(() => {
-    const hasSeenPreloader = sessionStorage.getItem('hasSeenPreloader');
+    // Initialize Lenis
+    if (!lenisRef.current) {
+      lenisRef.current = initLenis();
+    }
+  }, []);
 
-    // Show preloader only on the home page and if it hasn't been seen before
-    if (!hasSeenPreloader && pathname === '/') {
+  useEffect(() => {
+    const hasSeenPreloader = sessionStorage.getItem('hasSeenPreloader');
+    const isHomePage = pathname === '/';
+
+    if (isHomePage && !hasSeenPreloader) {
+      // Show preloader on first visit to the home page
       const timer = setTimeout(() => {
         setLoading(false);
         sessionStorage.setItem('hasSeenPreloader', 'true');
+        setHasVisitedHomePage(true); // Mark that the home page has been visited
       }, 4000);
 
-      return () => {
-        clearTimeout(timer);
-      };
+      return () => clearTimeout(timer);
     } else {
+      // For subsequent visits or other pages
       setLoading(false);
+      setShowScrollAnimation(true);
     }
   }, [pathname]);
+
+  useEffect(() => {
+    if (!loading && pathname !== '/') {
+      // Show scroll animation when navigating to other pages
+      setShowScrollAnimation(true);
+    }
+  }, [loading, pathname]);
+
+  const handleAnimationComplete = () => {
+    setShowScrollAnimation(false); // Reset flag after animation completes
+  };
 
   return (
     <html lang="en">
@@ -55,14 +76,27 @@ export default function RootLayout({ children }) {
         <SessionProvider>
           <ThemeProviderComponent>
             <CssBaseline />
-            {loading && <Preloader />}
-            {!loading && (
-              <>
-                {!shouldExcludeNavFooter && <AppAppBar />}
-                {children}
-                {!shouldExcludeNavFooter && <Footer />}
-              </>
-            )}
+            <AnimatePresence mode="wait">
+              {loading && <Preloader />}
+              {!loading && showScrollAnimation && (
+                <ScrollLogoAnimation onAnimationComplete={handleAnimationComplete} />
+              )}
+              {!loading && !showScrollAnimation && (
+                <>
+                  {!shouldExcludeNavFooter && <AppAppBar />}
+                  <motion.div
+                    key={pathname}
+                    initial={{ opacity: 0, y: 100 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -100 }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    {children}
+                  </motion.div>
+                  {!shouldExcludeNavFooter && <Footer />}
+                </>
+              )}
+            </AnimatePresence>
           </ThemeProviderComponent>
         </SessionProvider>
       </body>

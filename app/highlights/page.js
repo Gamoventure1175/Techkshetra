@@ -7,7 +7,7 @@ import imageKitLoader from '@/libs/imagekitloader';
 import { Container, Typography, Box, Button, Stack } from '@mui/material';
 import { useTheme } from '@/context/ThemeContext';
 import HomeButton from '@/components/HomeButton';
-import './highlights.css';
+import '@/style/highlights.css';
 import highlights from '@/data/highlights';
 
 const HighlightsPage = () => {

@@ -22,8 +22,8 @@ function Footer() {
   return (
     <Box
       id='footer'
+      borderRadius={'18px'}
       sx={(theme) => ({
-        width: '100%',
         px: { xs: 2, sm: 8, md: 12 },
         backgroundColor: 
           theme.palette.mode === 'light'
@@ -35,6 +35,7 @@ function Footer() {
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
+        m: {sm: 2, xs: 1}
       })}
     >
       <Stack direction={'row'} spacing={{ xs: 1, md: 2 }} sx={{ alignItems: 'center', mb: 2 }}>
