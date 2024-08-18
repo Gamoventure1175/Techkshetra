@@ -22,9 +22,7 @@ export default function RootLayout({ children }) {
   const pathname = usePathname();
   const lenisRef = useRef(null);
 
-  // Get the theme object
   const theme = useTheme();
-  // Check if the screen size is larger than 'lg' breakpoint
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   const authPathRegex = /^\/auth\/.*/;
@@ -32,13 +30,11 @@ export default function RootLayout({ children }) {
   const shouldExcludeNavFooter = authPathRegex.test(pathname) || noNavFooterPaths.includes(pathname);
 
   useEffect(() => {
-    // Initialize Lenis only if screen size is larger than 'lg'
     if (isDesktop) {
       if (!lenisRef.current) {
         lenisRef.current = initLenis();
       }
     } else {
-      // Clean up Lenis if screen size is smaller than 'lg'
       if (lenisRef.current) {
         lenisRef.current.destroy();
         lenisRef.current = null;
@@ -51,16 +47,14 @@ export default function RootLayout({ children }) {
     const isHomePage = pathname === '/';
 
     if (isHomePage && !hasSeenPreloader) {
-      // Show preloader on first visit to the home page
       const timer = setTimeout(() => {
         setLoading(false);
         sessionStorage.setItem('hasSeenPreloader', 'true');
-        setHasVisitedHomePage(true); // Mark that the home page has been visited
+        setHasVisitedHomePage(true);
       }, 4000);
 
       return () => clearTimeout(timer);
     } else {
-      // For subsequent visits or other pages
       setLoading(false);
       setShowScrollAnimation(true);
     }
@@ -68,13 +62,12 @@ export default function RootLayout({ children }) {
 
   useEffect(() => {
     if (!loading && pathname !== '/') {
-      // Show scroll animation when navigating to other pages
       setShowScrollAnimation(true);
     }
   }, [loading, pathname]);
 
   const handleAnimationComplete = () => {
-    setShowScrollAnimation(false); // Reset flag after animation completes
+    setShowScrollAnimation(false);
   };
 
   return (

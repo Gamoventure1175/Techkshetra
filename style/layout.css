@@ -1,6 +1,7 @@
 
 body {
-    overflow: hidden; /* Optional, depends on how Lenis.js handles overflow */
+    overflow: hidden;
+    border: 5px solid red; 
   }
   .noSelection {
     user-select: none;
