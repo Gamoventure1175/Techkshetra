@@ -32,8 +32,8 @@ export default function RootLayout({ children }) {
   const shouldExcludeNavFooter = authPathRegex.test(pathname) || noNavFooterPaths.includes(pathname);
 
   useEffect(() => {
+    // Initialize Lenis only if screen size is larger than 'lg'
     if (isDesktop) {
-      // Initialize Lenis only if screen size is larger than 'lg'
       if (!lenisRef.current) {
         lenisRef.current = initLenis();
       }
