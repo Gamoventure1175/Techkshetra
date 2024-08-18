@@ -13,6 +13,7 @@ import Head from 'next/head';
 import { motion, AnimatePresence } from 'framer-motion';
 import { initLenis } from '@/libs/lenis';
 import Preloader from '@/components/Preloader';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 export default function RootLayout({ children }) {
   const [loading, setLoading] = useState(true);
@@ -21,16 +22,29 @@ export default function RootLayout({ children }) {
   const pathname = usePathname();
   const lenisRef = useRef(null);
 
+  // Get the theme object
+  const theme = useTheme();
+  // Check if the screen size is larger than 'lg' breakpoint
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+
   const authPathRegex = /^\/auth\/.*/;
   const noNavFooterPaths = ['/highlights', '/profile', '/profile/change-password'];
   const shouldExcludeNavFooter = authPathRegex.test(pathname) || noNavFooterPaths.includes(pathname);
 
   useEffect(() => {
-    // Initialize Lenis
-    if (!lenisRef.current) {
-      lenisRef.current = initLenis();
+    if (isDesktop) {
+      // Initialize Lenis only if screen size is larger than 'lg'
+      if (!lenisRef.current) {
+        lenisRef.current = initLenis();
+      }
+    } else {
+      // Clean up Lenis if screen size is smaller than 'lg'
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
     }
-  }, []);
+  }, [isDesktop]);
 
   useEffect(() => {
     const hasSeenPreloader = sessionStorage.getItem('hasSeenPreloader');
