@@ -1,7 +1,4 @@
 
-body {
-    overflow: hidden;
-  }
   .noSelection {
     user-select: none;
   }
