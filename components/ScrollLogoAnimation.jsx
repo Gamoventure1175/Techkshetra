@@ -28,7 +28,7 @@ const ScrollLogoAnimation = ({ onAnimationComplete }) => {
   }, []);
 
   return (
-    <div ref={scrollRef} style={{ height: '100vh', overflow: 'hidden', position: 'relative', margin: {md: 20, xs: 2}, borderRadius: '18px'}}>
+    <div ref={scrollRef} style={{ height: '100vh', overflow: 'hidden', position: 'relative', margin: 20, borderRadius: '18px'}}>
       <motion.div
         initial={{ y: '100%' }}
         animate={{ y: '-100%' }}
