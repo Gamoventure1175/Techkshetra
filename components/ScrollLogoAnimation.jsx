@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
-import Image from 'next/image';
-import imageKitLoader from '@/libs/imagekitloader';
 import { useTheme } from '@mui/material/styles';
 
 const ScrollLogoAnimation = ({ onAnimationComplete }) => {
@@ -28,13 +26,16 @@ const ScrollLogoAnimation = ({ onAnimationComplete }) => {
   }, []);
 
   return (
-    <div ref={scrollRef} style={{ height: '100vh', overflow: 'hidden', position: 'relative', margin: 20, borderRadius: '18px'}}>
+    <div
+      ref={scrollRef}
+      style={{ height: '100vh', position: 'relative', margin: 20, borderRadius: '18px'}}
+    >
       <motion.div
         initial={{ y: '100%' }}
         animate={{ y: '-100%' }}
         transition={{ 
-          duration: 1.5, // Increase duration if needed
-          ease: [0.81, .82, .83, 1] // Custom cubic-bezier easing function
+          duration: 1.5, 
+          ease: [0.81, .82, .83, 1] 
         }}
         style={{
           position: 'absolute',
@@ -46,10 +47,10 @@ const ScrollLogoAnimation = ({ onAnimationComplete }) => {
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: theme.palette.mode === 'light' ? theme.palette.primary.light : theme.palette.secondary.light,
-          zIndex: 9999, 
+          zIndex: 9999,
           borderRadius: '18px',
         }}
-        onAnimationComplete={onAnimationComplete} // Trigger the callback when animation completes
+        onAnimationComplete={onAnimationComplete}
       >
       </motion.div>
     </div>
