@@ -11,11 +11,6 @@ import { useTheme } from '@mui/material';
 const Profile = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
   const theme = useTheme();
 
   // Log session data to debug
@@ -28,29 +23,6 @@ const Profile = () => {
     }
   }, [session, status, router]);
 
-  const handleChangePassword = async () => {
-    if (newPassword !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    const response = await fetch('/api/auth/change-password', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ currentPassword, newPassword }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      setMessage('Password changed successfully');
-      setCurrentPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
-    } else {
-      setError(data.message || 'Failed to change password');
-    }
-  };
 
   if (!session) {
     return <Container sx={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Loading...</Container>;
