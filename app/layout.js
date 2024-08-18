@@ -29,18 +29,18 @@ export default function RootLayout({ children }) {
   const noNavFooterPaths = ['/highlights', '/profile', '/profile/change-password'];
   const shouldExcludeNavFooter = authPathRegex.test(pathname) || noNavFooterPaths.includes(pathname);
 
-  useEffect(() => {
-    if (isDesktop) {
-      if (!lenisRef.current) {
-        lenisRef.current = initLenis();
-      }
-    } else {
-      if (lenisRef.current) {
-        lenisRef.current.destroy();
-        lenisRef.current = null;
-      }
-    }
-  }, [isDesktop]);
+  // useEffect(() => {
+  //   if (isDesktop) {
+  //     if (!lenisRef.current) {
+  //       lenisRef.current = initLenis();
+  //     }
+  //   } else {
+  //     if (lenisRef.current) {
+  //       lenisRef.current.destroy();
+  //       lenisRef.current = null;
+  //     }
+  //   }
+  // }, [isDesktop]);
 
   useEffect(() => {
     const hasSeenPreloader = sessionStorage.getItem('hasSeenPreloader');

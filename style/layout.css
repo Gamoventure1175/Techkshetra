@@ -1,7 +1,6 @@
 
 body {
     overflow: hidden;
-    border: 5px solid red; 
   }
   .noSelection {
     user-select: none;
