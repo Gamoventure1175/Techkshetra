@@ -48,7 +48,7 @@ const ChangePassword = () => {
       // Redirect after a delay
       setTimeout(() => {
         router.push('/profile');
-      }, 2000);
+      }, 1000);
     } else {
       setError(data.message || 'Failed to update password');
       setMessage(''); // Clear success message

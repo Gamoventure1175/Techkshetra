@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSession, signOut } from 'next-auth/react';
 import Box from '@mui/material/Box';
@@ -8,17 +8,17 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from './ToggleColorMode';
 import Image from 'next/image';
-import logo from '@/public/images/logot.png';
 import { useTheme } from '@/context/ThemeContext';
 import { useRouter } from 'next/navigation';
 import imageKitLoader from '@/libs/imagekitloader';
+import { motion } from 'framer-motion';
+import { Divider } from '@mui/material';
 
 const logoStyle = {
   width: '55px',
@@ -28,40 +28,37 @@ const logoStyle = {
 };
 
 function AppAppBar() {
-  const { mode, toggleColorMode } = useTheme(); 
-  const { data: session, status } = useSession(); 
+  const { mode, toggleColorMode } = useTheme();
+  const { data: session, status } = useSession();
   const router = useRouter();
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
 
-  const scrollToSection = (sectionId) => {
-    const sectionElement = document.getElementById(sectionId);
-    const offset = -100;
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
 
-    if (sectionElement) {
-      let targetScroll;
-
-      if (sectionId === 'events') {
-        const offset = 0; // Custom offset for the 'events' section
-        targetScroll = sectionElement.offsetTop - offset;
+      if (prevScrollPos > currentScrollPos) {
+        setIsVisible(true);
       } else {
-        const elementHeight = sectionElement.offsetHeight;
-        const viewportHeight = window.innerHeight;
-        targetScroll = sectionElement.offsetTop - (viewportHeight / 2) + (elementHeight / 2);
+        setIsVisible(false);
       }
 
-      window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth',
-      });
+      setPrevScrollPos(currentScrollPos);
+    };
 
-      console.log(sectionElement.id);
-    }
-  };
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [prevScrollPos]);
 
   return (
     <div>
@@ -71,7 +68,9 @@ function AppAppBar() {
           boxShadow: 0,
           bgcolor: 'transparent',
           backgroundImage: 'none',
-          mt: 2,
+          mt: isVisible? 2 : 0,
+          transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
+          transition: 'transform 0.3s ease-in-out',
         }}
       >
         <Container maxWidth="lg">
@@ -107,14 +106,14 @@ function AppAppBar() {
               }}
             >
               <Image
-                src={ mode === 'light' ? '/logos/logolight' : '/logos/logodark'}
+                src={mode === 'light' ? '/logos/logolight' : '/logos/logodark'}
                 loader={imageKitLoader}
                 width={100}
                 height={100}
                 style={logoStyle}
                 alt="logo of sitemark"
               />
-              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <Box sx={{ display: { xs: 'none', md: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 18 } }}>
                 <MenuItem
                   onClick={() => router.push('/')}
                   sx={{ py: '6px', px: '12px' }}
@@ -157,7 +156,7 @@ function AppAppBar() {
                 </MenuItem>
               </Box>
             </Box>
-            
+
             <Box
               sx={{
                 display: { xs: 'none', md: 'flex' },
@@ -173,7 +172,7 @@ function AppAppBar() {
                     variant="text"
                     size="small"
                     component="a"
-                    href="/profile" // Adjust the link to your profile page
+                    href="/profile"
                     target="_self"
                   >
                     Profile
@@ -222,7 +221,15 @@ function AppAppBar() {
               >
                 <MenuIcon />
               </Button>
-              <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
+              <Drawer
+                anchor="right"
+                open={open}
+                onClose={toggleDrawer(false)}
+                component={motion.div}
+                initial={{ opacity: 0.5 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
                 <Box
                   sx={{
                     minWidth: '60dvw',
@@ -230,6 +237,10 @@ function AppAppBar() {
                     backgroundColor: 'background.paper',
                     flexGrow: 1,
                   }}
+                  component={motion.div}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
                 >
                   <Box
                     sx={{
@@ -241,19 +252,15 @@ function AppAppBar() {
                   >
                     <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
                   </Box>
-                  <MenuItem onClick={() => router.push('/')}>
-                    Home
-                  </MenuItem>
-                  <MenuItem onClick={() => router.push('events')}>
-                    Events
-                  </MenuItem>
+                  <MenuItem onClick={() => router.push('/')}>Home</MenuItem>
+                  <MenuItem onClick={() => router.push('events')}>Events</MenuItem>
                   <MenuItem onClick={() => router.push('/highlights')}>
                     Highlights
                   </MenuItem>
-                  <MenuItem onClick={() => router.push('/courses')}>
-                    Courses
+                  <MenuItem onClick={() => router.push('/courses')}>Courses</MenuItem>
+                  <MenuItem onClick={() => router.push('/aboutus')}>
+                    About Us
                   </MenuItem>
-                  <MenuItem onClick={() => router.push('/aboutus')}>About Us</MenuItem>
                   <Divider />
                   {status === 'authenticated' ? (
                     <>
@@ -314,8 +321,13 @@ function AppAppBar() {
           </Toolbar>
         </Container>
       </AppBar>
+      <Toolbar />
     </div>
   );
 }
+
+AppAppBar.propTypes = {
+  window: PropTypes.func,
+};
 
 export default AppAppBar;
