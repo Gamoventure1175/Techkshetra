@@ -38,7 +38,7 @@ const TextContainer = styled(motion.div)({
 });
 
 const Text = styled(motion.div)(({ theme }) => ({
-  ...theme.typography.h1,
+  ...theme.typography.h2,
   marginBottom: '20px',
   position: 'relative',
   display: 'inline-block',
