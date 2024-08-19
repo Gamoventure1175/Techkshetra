@@ -63,265 +63,267 @@ function AppAppBar() {
   return (
     <div>
       <AppBar
-        position="fixed"
-        sx={{
+
+        sx={(theme) => ({
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          padding: 0,
           boxShadow: 0,
           bgcolor: 'transparent',
           backgroundImage: 'none',
-          mt: isVisible? 2 : 0,
+          m: 2,
           transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
+          mt: isVisible ? 2 : 0,
           transition: 'transform 0.3s ease-in-out',
-        }}
-      >
-        <Container maxWidth="lg">
-          <Toolbar
-            variant="regular"
-            sx={(theme) => ({
+          // transform: 'translateX(-50%)',
+          width: 'calc(100% - 32px)',
+          border: '1px solid',
+          borderColor: 'divider',
+          borderRadius: '18px',
+        })}
+        >
+        <Toolbar
+          variant="regular"
+          sx={(theme) => ({
+            borderRadius: '18px',
+            display: 'flex',
+            alignItems: 'center',
+            padding: 0,
+            justifyContent: 'space-between',
+            flexShrink: 0,
+            borderRadius: '18px',
+            backdropFilter: 'blur(24px)',
+            maxHeight: 60,
+            boxShadow:
+              theme.palette.mode === 'light'
+                ? '0 0 1px rgba(85, 166, 246, 0.1), 1px 1.5px 2px -1px rgba(85, 166, 246, 0.15), 4px 4px 12px -2.5px rgba(85, 166, 246, 0.15)'
+                : '0 0 1px rgba(2, 31, 59, 0.7), 1px 1.5px 2px -1px rgba(2, 31, 59, 0.65), 4px 4px 12px -2.5px rgba(2, 31, 59, 0.65)',
+          })}
+        >
+          <Box
+            sx={{
+              flexGrow: 1,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between',
-              flexShrink: 0,
-              borderRadius: '18px',
-              bgcolor:
-                theme.palette.mode === 'light'
-                  ? 'rgba(255, 255, 255, 0.4)'
-                  : 'rgba(0, 0, 0, 0.4)',
-              backdropFilter: 'blur(24px)',
-              maxHeight: 40,
-              border: '1px solid',
-              borderColor: 'divider',
-              boxShadow:
-                theme.palette.mode === 'light'
-                  ? '0 0 1px rgba(85, 166, 246, 0.1), 1px 1.5px 2px -1px rgba(85, 166, 246, 0.15), 4px 4px 12px -2.5px rgba(85, 166, 246, 0.15)'
-                  : '0 0 1px rgba(2, 31, 59, 0.7), 1px 1.5px 2px -1px rgba(2, 31, 59, 0.65), 4px 4px 12px -2.5px rgba(2, 31, 59, 0.65)',
-              px: 3,
-            })}
+              px: 0,
+            }}
           >
-            <Box
-              sx={{
-                flexGrow: 1,
-                display: 'flex',
-                alignItems: 'center',
-                px: 0,
-              }}
-            >
-              <Image
-                src={mode === 'light' ? '/logos/logolight' : '/logos/logodark'}
-                loader={imageKitLoader}
-                width={100}
-                height={100}
-                style={logoStyle}
-                alt="logo of sitemark"
-              />
-              <Box sx={{ display: { xs: 'none', md: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 18 } }}>
-                <MenuItem
-                  onClick={() => router.push('/')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
-                  <Typography variant="body2" color="text.primary">
-                    Home
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => router.push('/events')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
-                  <Typography variant="body2" color="text.primary">
-                    Events
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => router.push('/highlights')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
-                  <Typography variant="body2" color="text.primary">
-                    Highlights
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => router.push('/courses')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
-                  <Typography variant="body2" color="text.primary">
-                    Courses
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => router.push('/aboutus')}
-                  sx={{ py: '6px', px: '12px' }}
-                >
-                  <Typography variant="body2" color="text.primary">
-                    About Us
-                  </Typography>
-                </MenuItem>
-              </Box>
-            </Box>
-
-            <Box
-              sx={{
-                display: { xs: 'none', md: 'flex' },
-                gap: 0.5,
-                alignItems: 'center',
-              }}
-            >
-              <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
-              {status === 'authenticated' ? (
-                <>
-                  <Button
-                    color="primary"
-                    variant="text"
-                    size="small"
-                    component="a"
-                    href="/profile"
-                    target="_self"
-                  >
-                    Profile
-                  </Button>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    size="small"
-                    onClick={() => signOut()}
-                  >
-                    Sign out
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    color="primary"
-                    variant="text"
-                    size="small"
-                    component="a"
-                    href="/auth/signin"
-                    target="_self"
-                  >
-                    Sign In
-                  </Button>
-                  <Button
-                    color="primary"
-                    variant="text"
-                    size="small"
-                    component="a"
-                    href="/auth/signup"
-                    target="_self"
-                  >
-                    Sign Up
-                  </Button>
-                </>
-              )}
-            </Box>
-            <Box sx={{ display: { sm: '', md: 'none' } }}>
-              <Button
-                variant="text"
-                color="primary"
-                aria-label="menu"
-                onClick={toggleDrawer(true)}
-                sx={{ minWidth: '30px', p: '4px' }}
+            <Image
+              src={mode === 'light' ? '/logos/logolight' : '/logos/logodark'}
+              loader={imageKitLoader}
+              width={100}
+              height={100}
+              style={logoStyle}
+              alt="logo of sitemark"
+            />
+            <Box sx={{ display: { xs: 'none', md: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 18 } }}>
+              <MenuItem
+                onClick={() => router.push('/')}
+                sx={{ py: '6px', px: '12px' }}
               >
-                <MenuIcon />
-              </Button>
-              <Drawer
-                anchor="right"
-                open={open}
-                onClose={toggleDrawer(false)}
+                <Typography variant="body2" color="text.primary">
+                  Home
+                </Typography>
+              </MenuItem>
+              <MenuItem
+                onClick={() => router.push('/events')}
+                sx={{ py: '6px', px: '12px' }}
+              >
+                <Typography variant="body2" color="text.primary">
+                  Events
+                </Typography>
+              </MenuItem>
+              <MenuItem
+                onClick={() => router.push('/highlights')}
+                sx={{ py: '6px', px: '12px' }}
+              >
+                <Typography variant="body2" color="text.primary">
+                  Highlights
+                </Typography>
+              </MenuItem>
+              <MenuItem
+                onClick={() => router.push('/courses')}
+                sx={{ py: '6px', px: '12px' }}
+              >
+                <Typography variant="body2" color="text.primary">
+                  Courses
+                </Typography>
+              </MenuItem>
+              <MenuItem
+                onClick={() => router.push('/aboutus')}
+                sx={{ py: '6px', px: '12px' }}
+              >
+                <Typography variant="body2" color="text.primary">
+                  About Us
+                </Typography>
+              </MenuItem>
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+              gap: 0.5,
+              alignItems: 'center',
+            }}
+          >
+            <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+            {status === 'authenticated' ? (
+              <>
+                <Button
+                  color="primary"
+                  variant="text"
+                  size="small"
+                  component="a"
+                  href="/profile"
+                  target="_self"
+                >
+                  Profile
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="small"
+                  onClick={() => signOut()}
+                >
+                  Sign out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  color="primary"
+                  variant="text"
+                  size="small"
+                  component="a"
+                  href="/auth/signin"
+                  target="_self"
+                >
+                  Sign In
+                </Button>
+                <Button
+                  color="primary"
+                  variant="text"
+                  size="small"
+                  component="a"
+                  href="/auth/signup"
+                  target="_self"
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
+          </Box>
+          <Box sx={{ display: { sm: '', md: 'none' } }}>
+            <Button
+              variant="text"
+              color="primary"
+              aria-label="menu"
+              onClick={toggleDrawer(true)}
+              sx={{ minWidth: '30px', p: '4px' }}
+            >
+              <MenuIcon />
+            </Button>
+            <Drawer
+              anchor="right"
+              open={open}
+              onClose={toggleDrawer(false)}
+              component={motion.div}
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Box
+                sx={{
+                  minWidth: '60dvw',
+                  p: 2,
+                  backgroundColor: 'background.paper',
+                  flexGrow: 1,
+                }}
                 component={motion.div}
-                initial={{ opacity: 0.5 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
               >
                 <Box
                   sx={{
-                    minWidth: '60dvw',
-                    p: 2,
-                    backgroundColor: 'background.paper',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'end',
                     flexGrow: 1,
                   }}
-                  component={motion.div}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
                 >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'end',
-                      flexGrow: 1,
-                    }}
-                  >
-                    <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
-                  </Box>
-                  <MenuItem onClick={() => router.push('/')}>Home</MenuItem>
-                  <MenuItem onClick={() => router.push('events')}>Events</MenuItem>
-                  <MenuItem onClick={() => router.push('/highlights')}>
-                    Highlights
-                  </MenuItem>
-                  <MenuItem onClick={() => router.push('/courses')}>Courses</MenuItem>
-                  <MenuItem onClick={() => router.push('/aboutus')}>
-                    About Us
-                  </MenuItem>
-                  <Divider />
-                  {status === 'authenticated' ? (
-                    <>
-                      <MenuItem>
-                        <Button
-                          color="primary"
-                          variant="text"
-                          component="a"
-                          href="/profile" // Adjust the link to your profile page
-                          target="_self"
-                          sx={{ width: '100%' }}
-                        >
-                          Profile
-                        </Button>
-                      </MenuItem>
-                      <MenuItem>
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          onClick={() => signOut()}
-                          sx={{ width: '100%' }}
-                        >
-                          Sign out
-                        </Button>
-                      </MenuItem>
-                    </>
-                  ) : (
-                    <>
-                      <MenuItem>
-                      </MenuItem>
-                      <MenuItem>
-                        <Button
-                          color="primary"
-                          variant="text"
-                          component="a"
-                          href="/auth/signin"
-                          sx={{ width: '100%' }}
-                        >
-                          Sign In
-                        </Button>
-                      </MenuItem>
-                      <MenuItem>
-                        <Button
-                          color="primary"
-                          variant="text"
-                          component="a"
-                          href="/auth/signup"
-                          sx={{ width: '100%' }}
-                        >
-                          Sign Up
-                        </Button>
-                      </MenuItem>
-                    </>
-                  )}
+                  <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
                 </Box>
-              </Drawer>
-            </Box>
-          </Toolbar>
-        </Container>
+                <MenuItem onClick={() => router.push('/')}>Home</MenuItem>
+                <MenuItem onClick={() => router.push('events')}>Events</MenuItem>
+                <MenuItem onClick={() => router.push('/highlights')}>
+                  Highlights
+                </MenuItem>
+                <MenuItem onClick={() => router.push('/courses')}>Courses</MenuItem>
+                <MenuItem onClick={() => router.push('/aboutus')}>
+                  About Us
+                </MenuItem>
+                <Divider />
+                {status === 'authenticated' ? (
+                  <>
+                    <MenuItem>
+                      <Button
+                        color="primary"
+                        variant="text"
+                        component="a"
+                        href="/profile" // Adjust the link to your profile page
+                        target="_self"
+                        sx={{ width: '100%' }}
+                      >
+                        Profile
+                      </Button>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={() => signOut()}
+                        sx={{ width: '100%' }}
+                      >
+                        Sign out
+                      </Button>
+                    </MenuItem>
+                  </>
+                ) : (
+                  <>
+                    <MenuItem>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button
+                        color="primary"
+                        variant="text"
+                        component="a"
+                        href="/auth/signin"
+                        sx={{ width: '100%' }}
+                      >
+                        Sign In
+                      </Button>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button
+                        color="primary"
+                        variant="text"
+                        component="a"
+                        href="/auth/signup"
+                        sx={{ width: '100%' }}
+                      >
+                        Sign Up
+                      </Button>
+                    </MenuItem>
+                  </>
+                )}
+              </Box>
+            </Drawer>
+          </Box>
+        </Toolbar>
       </AppBar>
-      <Toolbar />
     </div>
   );
 }
