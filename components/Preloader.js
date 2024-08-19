@@ -34,6 +34,7 @@ const TextContainer = styled(motion.div)({
   position: 'relative',
   zIndex: 2,
   textAlign: 'center',
+  padding: 2,
 });
 
 const Text = styled(motion.div)(({ theme }) => ({
