@@ -64,7 +64,7 @@ const Preloader = () => {
       />
       <TextContainer>
         <Text
-          initial={{ opacity: 0, scale: .8 }}
+          initial={{ opacity: 0, scale: .6 }}
           animate={{ opacity: 1, scale: 1.1 }}
           transition={{ duration: 1.5, ease: 'easeOut', delay: .4}}
         >
