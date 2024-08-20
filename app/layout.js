@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import React, { useState, useEffect, useRef } from 'react';
 import CssBaseline from "@mui/material/CssBaseline";
@@ -40,13 +40,21 @@ export default function RootLayout({ children }) {
       // Show preloader on first visit to the home page
       const timer = setTimeout(() => {
         setLoading(false);
+      const contentLoadTimer = setTimeout(() => {
         sessionStorage.setItem('hasSeenPreloader', 'true');
         setHasVisitedHomePage(true); // Mark that the home page has been visited
       }, 5000);
+        setHasVisitedHomePage(true);
+        setLoading(false);
+      }, 5000);
 
-      return () => clearTimeout(timer);
+      // Ensure scroll animation does not show on first visit
+      setShowScrollAnimation(false);
+
+      return () => {
+        clearTimeout(contentLoadTimer);
+      };
     } else {
-      // For subsequent visits or other pages
       setLoading(false);
       setShowScrollAnimation(true);
     }
@@ -54,13 +62,12 @@ export default function RootLayout({ children }) {
 
   useEffect(() => {
     if (!loading && pathname !== '/') {
-      // Show scroll animation when navigating to other pages
       setShowScrollAnimation(true);
     }
   }, [loading, pathname]);
 
   const handleAnimationComplete = () => {
-    setShowScrollAnimation(false); // Reset flag after animation completes
+    setShowScrollAnimation(false);
   };
 
   return (
