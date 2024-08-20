@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
-import ToggleColorMode from './ToggleColorMode';
 import Image from 'next/image';
 import { useTheme } from '@/context/ThemeContext';
 import { useRouter } from 'next/navigation';
@@ -95,10 +94,7 @@ function AppAppBar() {
             borderRadius: '18px',
             backdropFilter: 'blur(24px)',
             maxHeight: 60,
-            boxShadow:
-              theme.palette.mode === 'light'
-                ? '0 0 1px rgba(85, 166, 246, 0.1), 1px 1.5px 2px -1px rgba(85, 166, 246, 0.15), 4px 4px 12px -2.5px rgba(85, 166, 246, 0.15)'
-                : '0 0 1px rgba(2, 31, 59, 0.7), 1px 1.5px 2px -1px rgba(2, 31, 59, 0.65), 4px 4px 12px -2.5px rgba(2, 31, 59, 0.65)',
+            boxShadow: '0 0 1px rgba(85, 166, 246, 0.1), 1px 1.5px 2px -1px rgba(85, 166, 246, 0.15), 4px 4px 12px -2.5px rgba(85, 166, 246, 0.15)'
           })}
         >
           <Box
@@ -168,7 +164,6 @@ function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
             {status === 'authenticated' ? (
               <>
                 <Button
@@ -254,7 +249,6 @@ function AppAppBar() {
                     flexGrow: 1,
                   }}
                 >
-                  <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
                 </Box>
                 <MenuItem onClick={() => router.push('/')}>Home</MenuItem>
                 <MenuItem onClick={() => router.push('events')}>Events</MenuItem>
