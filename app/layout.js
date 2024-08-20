@@ -42,7 +42,7 @@ export default function RootLayout({ children }) {
         setLoading(false);
         sessionStorage.setItem('hasSeenPreloader', 'true');
         setHasVisitedHomePage(true); // Mark that the home page has been visited
-      }, 4000);
+      }, 5000);
 
       return () => clearTimeout(timer);
     } else {

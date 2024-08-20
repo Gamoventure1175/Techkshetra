@@ -9,15 +9,15 @@ const PreloaderContainer = styled(motion.div)(({ theme }) => ({
   justifyContent: 'center',
   alignItems: 'center',
   position: 'fixed',
-  width: 'calc(100% - 32px)', // Adjust width to account for padding
-  height: 'calc(100vh - 32px)', // Adjust height to account for padding
-  top: '16px', // Adjust top position to account for padding
-  left: '16px', // Adjust left position to account for padding
+  width: 'calc(100% - 32px)', 
+  height: 'calc(100vh - 32px)',
+  top: '16px', 
+  left: '16px', 
   background: 'white',
   zIndex: 9999,
   overflow: 'hidden',
   borderRadius: '18px',
-  boxSizing: 'border-box', // Ensure padding does not affect dimensions
+  boxSizing: 'border-box', 
 }));
 
 const FillAnimation = styled(motion.div)(({ theme }) => ({
@@ -25,7 +25,7 @@ const FillAnimation = styled(motion.div)(({ theme }) => ({
   width: '100%',
   height: '100%',
   bottom: 0,
-  background: theme.palette.mode === 'light' ? theme.palette.primary.light : theme.palette.secondary.light,
+  background: theme.palette.primary.light,
   zIndex: 1,
   borderRadius: '18px',
 }));
@@ -34,15 +34,14 @@ const TextContainer = styled(motion.div)({
   position: 'relative',
   zIndex: 2,
   textAlign: 'center',
-  padding: 2,
 });
 
 const Text = styled(motion.div)(({ theme }) => ({
-  ...theme.typography.h2,
+  ...theme.typography.h1,
   marginBottom: '20px',
   position: 'relative',
   display: 'inline-block',
-  color: 'white'
+  color: 'white',
 }));
 
 const LoadingLine = styled(motion.div)(({ theme }) => ({
@@ -56,7 +55,11 @@ const LoadingLine = styled(motion.div)(({ theme }) => ({
 
 const Preloader = () => {
   return (
-    <PreloaderContainer>
+    <PreloaderContainer
+      initial={{  }}
+      animate={{ height: '64px' }}
+      transition={{ duration: 1.5, ease: 'easeOut', delay: 3.5 }}
+    >
       <FillAnimation
         initial={{ height: 0 }}
         animate={{ height: '100%' }}
@@ -64,15 +67,14 @@ const Preloader = () => {
       />
       <TextContainer>
         <Text
-          initial={{ opacity: 0, scale: .6 }}
-          animate={{ opacity: 1, scale: 1.1 }}
-          transition={{ duration: 1.5, ease: 'easeOut', delay: .4}}
+          animate={{ opacity: [0, 1, 0], scale: [0.8, 1.2] }}
+          transition={{ duration: 3, times: [0, 0.8, 1], ease: 'easeOut', delay: 0.4 }}
         >
           TechKshetra
           <LoadingLine
             initial={{ width: 0 }}
             animate={{ width: '100%' }}
-            transition={{ duration: 1.5, ease: 'easeOut', delay: 2 }}
+            transition={{ duration: 1.5, ease: 'easeOut', delay: 1 }}
           />
         </Text>
       </TextContainer>
