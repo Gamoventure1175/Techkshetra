@@ -35,15 +35,16 @@ export default function RootLayout({ children }) {
   useEffect(() => {
     const hasSeenPreloader = sessionStorage.getItem('hasSeenPreloader');
     const isHomePage = pathname === '/';
+    let contentLoadTimer;  // Declare contentLoadTimer here
 
     if (isHomePage && !hasSeenPreloader) {
       // Show preloader on first visit to the home page
       const timer = setTimeout(() => {
         setLoading(false);
-      const contentLoadTimer = setTimeout(() => {
-        sessionStorage.setItem('hasSeenPreloader', 'true');
-        setHasVisitedHomePage(true); // Mark that the home page has been visited
-      }, 5000);
+        contentLoadTimer = setTimeout(() => {
+          sessionStorage.setItem('hasSeenPreloader', 'true');
+          setHasVisitedHomePage(true); // Mark that the home page has been visited
+        }, 5000);
         setHasVisitedHomePage(true);
         setLoading(false);
       }, 5000);
@@ -52,7 +53,8 @@ export default function RootLayout({ children }) {
       setShowScrollAnimation(false);
 
       return () => {
-        clearTimeout(contentLoadTimer);
+        clearTimeout(timer); // Clear the initial timer as well
+        clearTimeout(contentLoadTimer); // Clear contentLoadTimer
       };
     } else {
       setLoading(false);
