@@ -143,6 +143,60 @@ function AppAppBar() {
             </Box>
           </Box>
 
+          <Box
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+              gap: 0.5,
+              alignItems: 'center',
+            }}
+          >
+            {status === 'authenticated' ? (
+              <>
+                <Button
+                  color="primary"
+                  variant="text"
+                  size="small"
+                  component="a"
+                  href="/profile"
+                  target="_self"
+                >
+                  Profile
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="small"
+                  onClick={() => signOut()}
+                >
+                  Sign out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  color="primary"
+                  variant="text"
+                  size="small"
+                  component="a"
+                  href="/auth/signin"
+                  target="_self"
+                >
+                  Sign In
+                </Button>
+                <Button
+                  color="primary"
+                  variant="text"
+                  size="small"
+                  component="a"
+                  href="/auth/signup"
+                  target="_self"
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
+          </Box>
+
           <Box sx={{ display: { sm: '', md: 'none' } }}>
             <Button
               variant="text"
