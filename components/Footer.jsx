@@ -79,34 +79,6 @@ function Footer() {
         </IconButton>
         <IconButton
           component="a"
-          href="https://www.linkedin.com/in/yourprofile" // Replace with your LinkedIn profile URL
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={(theme) => ({
-            color: theme.palette.text.primary,
-            '&:hover': {
-              color: theme.palette.primary.main,
-            },
-          })}
-        >
-          <LinkedInIcon />
-        </IconButton>
-        <IconButton
-          component="a"
-          href="https://www.facebook.com/yourprofile" // Replace with your Facebook profile URL
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={(theme) => ({
-            color: theme.palette.text.primary,
-            '&:hover': {
-              color: theme.palette.primary.main,
-            },
-          })}
-        >
-          <FacebookIcon />
-        </IconButton>
-        <IconButton
-          component="a"
           href="mailto:techkshetra.cs.it.club@gmail.com" // Replace with your email address
           target="_blank"
           rel="noopener noreferrer"
