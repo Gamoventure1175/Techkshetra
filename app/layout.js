@@ -17,7 +17,6 @@ import Preloader from '@/components/Preloader';
 export default function RootLayout({ children }) {
   const [loading, setLoading] = useState(true);
   const [showScrollAnimation, setShowScrollAnimation] = useState(false);
-  const [hasVisitedHomePage, setHasVisitedHomePage] = useState(false);
   const pathname = usePathname();
   const lenisRef = useRef(null);
 
@@ -35,7 +34,7 @@ export default function RootLayout({ children }) {
   useEffect(() => {
     const hasSeenPreloader = sessionStorage.getItem('hasSeenPreloader');
     const isHomePage = pathname === '/';
-    let contentLoadTimer;  // Declare contentLoadTimer here
+    let contentLoadTimer;
 
     if (isHomePage && !hasSeenPreloader) {
       // Show preloader on first visit to the home page
@@ -43,22 +42,26 @@ export default function RootLayout({ children }) {
         setLoading(false);
         contentLoadTimer = setTimeout(() => {
           sessionStorage.setItem('hasSeenPreloader', 'true');
-          setHasVisitedHomePage(true); // Mark that the home page has been visited
         }, 5000);
-        setHasVisitedHomePage(true);
-        setLoading(false);
       }, 5000);
 
       // Ensure scroll animation does not show on first visit
       setShowScrollAnimation(false);
 
       return () => {
-        clearTimeout(timer); // Clear the initial timer as well
+        clearTimeout(timer); // Clear the initial timer
         clearTimeout(contentLoadTimer); // Clear contentLoadTimer
       };
     } else {
-      setLoading(false);
-      setShowScrollAnimation(true);
+      // Always show preloader on reload, then decide whether to show scroll animation
+      const timer = setTimeout(() => {
+        setLoading(false);
+        setShowScrollAnimation(!hasSeenPreloader);
+      }, 5000);
+
+      return () => {
+        clearTimeout(timer);
+      };
     }
   }, [pathname]);
 
