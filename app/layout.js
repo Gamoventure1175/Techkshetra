@@ -34,24 +34,22 @@ export default function RootLayout({ children }) {
   useEffect(() => {
     const hasSeenPreloader = sessionStorage.getItem('hasSeenPreloader');
     const isHomePage = pathname === '/';
-    
+
     if (isHomePage && !hasSeenPreloader) {
       // Show preloader on first visit to the home page
-      const timer = setTimeout(() => {
-        setLoading(false);
-        sessionStorage.setItem('hasSeenPreloader', 'true');
-      }, 5000);
-
-      // Ensure scroll animation does not show on first visit
+      setLoading(true); // Ensure preloader is shown
       setShowScrollAnimation(false);
-
-      return () => clearTimeout(timer);
     } else {
       // Only show preloader on reload (not during navigation)
       setLoading(false);
       setShowScrollAnimation(true);
     }
   }, [pathname]);
+
+  const handlePreloaderLoaded = () => {
+    setLoading(false);
+    sessionStorage.setItem('hasSeenPreloader', 'true');
+  };
 
   useEffect(() => {
     if (!loading && pathname !== '/') {
@@ -77,7 +75,7 @@ export default function RootLayout({ children }) {
           <ThemeProviderComponent>
             <CssBaseline />
             <AnimatePresence mode="wait">
-              {loading && <Preloader />}
+              {loading && <Preloader onLoaded={handlePreloaderLoaded} />}
               {!loading && showScrollAnimation && (
                 <ScrollLogoAnimation onAnimationComplete={handleAnimationComplete} />
               )}

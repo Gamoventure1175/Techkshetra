@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { styled } from '@mui/system';
 
@@ -9,15 +9,15 @@ const PreloaderContainer = styled(motion.div)(({ theme }) => ({
   justifyContent: 'center',
   alignItems: 'center',
   position: 'fixed',
-  width: 'calc(100% - 32px)', 
+  width: 'calc(100% - 32px)',
   height: 'calc(100vh - 32px)',
-  top: '16px', 
-  left: '16px', 
+  top: '16px',
+  left: '16px',
   background: 'white',
   zIndex: 9999,
   overflow: 'hidden',
   borderRadius: '18px',
-  boxSizing: 'border-box', 
+  boxSizing: 'border-box',
 }));
 
 const FillAnimation = styled(motion.div)(({ theme }) => ({
@@ -46,19 +46,27 @@ const Text = styled(motion.div)(({ theme }) => ({
 
 const LoadingLine = styled(motion.div)(({ theme }) => ({
   position: 'absolute',
-  bottom: '-10px', // Adjust this value based on your design
+  bottom: '-10px',
   left: 0,
   height: '3px',
   background: 'white',
   width: '100%',
 }));
 
-const Preloader = () => {
+const Preloader = ({ onLoaded }) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onLoaded();
+    }, 5500);
+
+    return () => clearTimeout(timer);
+  }, [onLoaded]);
+
   return (
     <PreloaderContainer
-      initial={{  }}
-      animate={{ height: '64px' }}
-      transition={{ duration: 1.5, ease: 'easeOut', delay: 3.5 }}
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 0, height: '64px' }}
+      transition={{ opacity: { duration: 1.5, ease: 'easeOut', delay: 4.5 }, height: { duration: 1.5, ease: 'easeOut', delay: 3.5 } }}
     >
       <FillAnimation
         initial={{ height: 0 }}
