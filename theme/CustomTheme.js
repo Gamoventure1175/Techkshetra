@@ -526,32 +526,32 @@ export default function customTheme(mode) {
         defaultProps: {
           underline: 'none',
         },
-        styleOverrides: {
-          root: ({ theme }) => ({
-            color: brand[600],
-            fontWeight: 500,
-            position: 'relative',
-            textDecoration: 'none',
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              width: 0,
-              height: '1px',
-              bottom: 0,
-              left: 0,
-              backgroundColor: brand[200],
-              opacity: 0.7,
-              transition: 'width 0.3s ease, opacity 0.3s ease',
-            },
-            '&:hover::before': {
-              width: '100%',
-              opacity: 1,
-            },
-            ...(theme.palette.mode === 'dark' && {
-              color: brand[200],
-            }),
-          }),
-        },
+        // styleOverrides: {
+        //   root: ({ theme }) => ({
+        //     color: brand[600],
+        //     fontWeight: 500,
+        //     position: 'relative',
+        //     textDecoration: 'none',
+        //     '&::before': {
+        //       content: '""',
+        //       position: 'absolute',
+        //       width: 0,
+        //       height: '1px',
+        //       bottom: 0,
+        //       left: 0,
+        //       backgroundColor: brand[200],
+        //       opacity: 0.7,
+        //       transition: 'width 0.3s ease, opacity 0.3s ease',
+        //     },
+        //     '&:hover::before': {
+        //       width: '100%',
+        //       opacity: 1,
+        //     },
+        //     ...(theme.palette.mode === 'dark' && {
+        //       color: brand[200],
+        //     }),
+        //   }),
+        // },
       },
       MuiMenuItem: {
         styleOverrides: {

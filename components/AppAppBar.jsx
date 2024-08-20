@@ -17,7 +17,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { useRouter } from 'next/navigation';
 import imageKitLoader from '@/libs/imagekitloader';
 import { motion } from 'framer-motion';
-import { Divider } from '@mui/material';
+import { Divider, Link } from '@mui/material';
 
 const logoStyle = {
   width: '55px',
@@ -105,14 +105,16 @@ function AppAppBar() {
               px: 0,
             }}
           >
-            <Image
-              src={mode === 'light' ? '/logos/logolight' : '/logos/logodark'}
-              loader={imageKitLoader}
-              width={100}
-              height={100}
-              style={logoStyle}
-              alt="logo of sitemark"
+            <Link href='/' >
+              <Image
+                src={mode === 'light' ? '/logos/logolight' : '/logos/logodark'}
+                loader={imageKitLoader}
+                width={100}
+                height={100}
+                style={logoStyle}
+                alt="logo of sitemark"
             />
+            </Link>
             <Box sx={{ display: { xs: 'none', md: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 18 } }}>
               <MenuItem
                 onClick={() => router.push('/')}
