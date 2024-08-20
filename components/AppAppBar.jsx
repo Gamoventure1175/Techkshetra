@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import Image from 'next/image';
 import { useTheme } from '@/context/ThemeContext';
 import { useRouter } from 'next/navigation';
@@ -62,7 +63,6 @@ function AppAppBar() {
   return (
     <div>
       <AppBar
-
         sx={(theme) => ({
           position: 'fixed',
           left: 0,
@@ -75,20 +75,19 @@ function AppAppBar() {
           transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
           mt: isVisible ? 2 : 0,
           transition: 'transform 0.3s ease-in-out',
-          // transform: 'translateX(-50%)',
           width: 'calc(100% - 32px)',
           border: '1px solid',
           borderColor: 'divider',
           borderRadius: '18px',
         })}
-        >
+      >
         <Toolbar
           variant="regular"
           sx={(theme) => ({
             borderRadius: '18px',
             display: 'flex',
             alignItems: 'center',
-            padding: 0,
+            px: 2,
             justifyContent: 'space-between',
             flexShrink: 0,
             borderRadius: '18px',
@@ -105,7 +104,7 @@ function AppAppBar() {
               px: 0,
             }}
           >
-            <Link href='/' >
+            <Link href='/'>
               <Image
                 src={mode === 'light' ? '/logos/logolight' : '/logos/logodark'}
                 loader={imageKitLoader}
@@ -113,45 +112,30 @@ function AppAppBar() {
                 height={100}
                 style={logoStyle}
                 alt="logo of sitemark"
-            />
+              />
             </Link>
             <Box sx={{ display: { xs: 'none', md: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 18 } }}>
-              <MenuItem
-                onClick={() => router.push('/')}
-                sx={{ py: '6px', px: '12px' }}
-              >
+              <MenuItem onClick={() => router.push('/')} sx={{ py: '6px', px: '12px' }}>
                 <Typography variant="body2" color="text.primary">
                   Home
                 </Typography>
               </MenuItem>
-              <MenuItem
-                onClick={() => router.push('/events')}
-                sx={{ py: '6px', px: '12px' }}
-              >
+              <MenuItem onClick={() => router.push('/events')} sx={{ py: '6px', px: '12px' }}>
                 <Typography variant="body2" color="text.primary">
                   Events
                 </Typography>
               </MenuItem>
-              <MenuItem
-                onClick={() => router.push('/highlights')}
-                sx={{ py: '6px', px: '12px' }}
-              >
+              <MenuItem onClick={() => router.push('/highlights')} sx={{ py: '6px', px: '12px' }}>
                 <Typography variant="body2" color="text.primary">
                   Highlights
                 </Typography>
               </MenuItem>
-              <MenuItem
-                onClick={() => router.push('/courses')}
-                sx={{ py: '6px', px: '12px' }}
-              >
+              <MenuItem onClick={() => router.push('/courses')} sx={{ py: '6px', px: '12px' }}>
                 <Typography variant="body2" color="text.primary">
                   Courses
                 </Typography>
               </MenuItem>
-              <MenuItem
-                onClick={() => router.push('/aboutus')}
-                sx={{ py: '6px', px: '12px' }}
-              >
+              <MenuItem onClick={() => router.push('/aboutus')} sx={{ py: '6px', px: '12px' }}>
                 <Typography variant="body2" color="text.primary">
                   About Us
                 </Typography>
@@ -159,59 +143,6 @@ function AppAppBar() {
             </Box>
           </Box>
 
-          <Box
-            sx={{
-              display: { xs: 'none', md: 'flex' },
-              gap: 0.5,
-              alignItems: 'center',
-            }}
-          >
-            {status === 'authenticated' ? (
-              <>
-                <Button
-                  color="primary"
-                  variant="text"
-                  size="small"
-                  component="a"
-                  href="/profile"
-                  target="_self"
-                >
-                  Profile
-                </Button>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  size="small"
-                  onClick={() => signOut()}
-                >
-                  Sign out
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  color="primary"
-                  variant="text"
-                  size="small"
-                  component="a"
-                  href="/auth/signin"
-                  target="_self"
-                >
-                  Sign In
-                </Button>
-                <Button
-                  color="primary"
-                  variant="text"
-                  size="small"
-                  component="a"
-                  href="/auth/signup"
-                  target="_self"
-                >
-                  Sign Up
-                </Button>
-              </>
-            )}
-          </Box>
           <Box sx={{ display: { sm: '', md: 'none' } }}>
             <Button
               variant="text"
@@ -223,45 +154,71 @@ function AppAppBar() {
               <MenuIcon />
             </Button>
             <Drawer
-              anchor="right"
+              anchor="top"
               open={open}
               onClose={toggleDrawer(false)}
-              component={motion.div}
-              initial={{ opacity: 0.5 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
+              PaperProps={{
+                component: motion.div,
+                initial: { height: 0 },
+                animate: { height: open ? '100vh' : 0 },
+                transition: { duration: 1.2 },
+              }}
+              sx={{
+                '& .MuiDrawer-paper': {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: 2,
+                  bgcolor: 'primary.light', // Set background color
+                  overflowY: 'hidden',
+                  color: 'white', // Set text color
+                }
+              }}
             >
               <Box
                 sx={{
-                  minWidth: '60dvw',
-                  p: 2,
-                  backgroundColor: 'background.paper',
-                  flexGrow: 1,
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
-                component={motion.div}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <Box
+                <Button
+                  variant="text"
+                  onClick={toggleDrawer(false)}
                   sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'end',
-                    flexGrow: 1,
+                    position: 'absolute',
+                    top: 10,
+                    right: 10,
+                    zIndex: 1300, // Ensure button is above other content
+                    color: 'white', // Set button color
+                    '&:hover': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.2)', // Ripple effect color
+                    }
                   }}
                 >
-                </Box>
-                <MenuItem onClick={() => router.push('/')}>Home</MenuItem>
-                <MenuItem onClick={() => router.push('events')}>Events</MenuItem>
-                <MenuItem onClick={() => router.push('/highlights')}>
-                  Highlights
-                </MenuItem>
-                <MenuItem onClick={() => router.push('/courses')}>Courses</MenuItem>
-                <MenuItem onClick={() => router.push('/aboutus')}>
-                  About Us
-                </MenuItem>
-                <Divider />
+                  <CloseIcon />
+                </Button>
+                {['Home', 'Events', 'Highlights', 'Courses', 'About Us'].map((text, index) => {
+                  const path = text === 'Home' ? '/' : `/${text.toLowerCase().replace(' ', '')}`;
+                  return (
+                    <motion.div
+                      key={text}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 1, delay: index * 0.1 }}
+                    >
+                      <MenuItem onClick={() => router.push(path)} sx={{ py: '12px', px: '24px', color: 'white' }}>
+                        <Typography variant="h6" color="inherit">
+                          {text}
+                        </Typography>
+                      </MenuItem>
+                    </motion.div>
+                  );
+                })}
+                <Divider sx={{ my: 2, borderColor: 'white' }} />
                 {status === 'authenticated' ? (
                   <>
                     <MenuItem>
@@ -269,19 +226,19 @@ function AppAppBar() {
                         color="primary"
                         variant="text"
                         component="a"
-                        href="/profile" // Adjust the link to your profile page
+                        href="/profile"
                         target="_self"
-                        sx={{ width: '100%' }}
+                        sx={{ width: '100%', color: 'white', backgroundColor: 'transparent', '&:hover': { backgroundColor: 'transparent' } }}
                       >
                         Profile
                       </Button>
                     </MenuItem>
-                    <MenuItem>
+                    <MenuItem sx={{'&:hover': {backgroundColor: 'transparent'}}}>
                       <Button
                         color="primary"
                         variant="contained"
                         onClick={() => signOut()}
-                        sx={{ width: '100%' }}
+                        sx={{ width: '100%', color: 'white', '&:hover': { backgroundColor: 'transparent'}}}
                       >
                         Sign out
                       </Button>
@@ -289,28 +246,24 @@ function AppAppBar() {
                   </>
                 ) : (
                   <>
-                    <MenuItem>
-                    </MenuItem>
-                    <MenuItem>
+                    <MenuItem sx={{'&:hover': {backgroundColor: 'transparent'}}}>
                       <Button
                         color="primary"
-                        variant="text"
-                        component="a"
+                        variant="outlined"
                         href="/auth/signin"
-                        sx={{ width: '100%' }}
+                        sx={{ width: '100%', color: 'white', }}
                       >
-                        Sign In
+                        Sign in
                       </Button>
                     </MenuItem>
-                    <MenuItem>
+                    <MenuItem sx={{'&:hover': {backgroundColor: 'transparent'}}}>
                       <Button
                         color="primary"
-                        variant="text"
-                        component="a"
+                        variant="contained"
                         href="/auth/signup"
-                        sx={{ width: '100%' }}
+                        sx={{ width: '100%', color: 'white', '&:hover': { backgroundColor: 'transparent' } }}
                       >
-                        Sign Up
+                        Sign up
                       </Button>
                     </MenuItem>
                   </>

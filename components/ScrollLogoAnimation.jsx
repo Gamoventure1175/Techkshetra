@@ -33,8 +33,8 @@ const ScrollLogoAnimation = ({ onAnimationComplete }) => {
         initial={{ y: '100%' }}
         animate={{ y: '-100%' }}
         transition={{ 
-          duration: 1.5, // Increase duration if needed
-          ease: [0.81, .82, .83, 1] // Custom cubic-bezier easing function
+          duration: 1.3, // Increase duration if needed
+          ease: [0.2, .22, .23, 1] // Custom cubic-bezier easing function
         }}
         style={{
           position: 'absolute',
