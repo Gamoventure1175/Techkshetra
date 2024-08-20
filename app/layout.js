@@ -34,34 +34,22 @@ export default function RootLayout({ children }) {
   useEffect(() => {
     const hasSeenPreloader = sessionStorage.getItem('hasSeenPreloader');
     const isHomePage = pathname === '/';
-    let contentLoadTimer;
-
+    
     if (isHomePage && !hasSeenPreloader) {
       // Show preloader on first visit to the home page
       const timer = setTimeout(() => {
         setLoading(false);
-        contentLoadTimer = setTimeout(() => {
-          sessionStorage.setItem('hasSeenPreloader', 'true');
-        }, 5000);
+        sessionStorage.setItem('hasSeenPreloader', 'true');
       }, 5000);
 
       // Ensure scroll animation does not show on first visit
       setShowScrollAnimation(false);
 
-      return () => {
-        clearTimeout(timer); // Clear the initial timer
-        clearTimeout(contentLoadTimer); // Clear contentLoadTimer
-      };
+      return () => clearTimeout(timer);
     } else {
-      // Always show preloader on reload, then decide whether to show scroll animation
-      const timer = setTimeout(() => {
-        setLoading(false);
-        setShowScrollAnimation(!hasSeenPreloader);
-      }, 5000);
-
-      return () => {
-        clearTimeout(timer);
-      };
+      // Only show preloader on reload (not during navigation)
+      setLoading(false);
+      setShowScrollAnimation(true);
     }
   }, [pathname]);
 
