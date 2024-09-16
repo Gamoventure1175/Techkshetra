@@ -23,7 +23,8 @@ export default function Header() {
             height: "100vh", 
             display:'flex', 
             alignItems: 'center', 
-            justifyContent:'center'
+            justifyContent:'center',
+            backgroundColor: 'transparent'
             }}
         >
             <Container sx={{

@@ -71,50 +71,46 @@ function AppAppBar() {
           boxShadow: 0,
           bgcolor: 'transparent',
           backgroundImage: 'none',
-          m: 2,
           transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
-          mt: isVisible ? 2 : 0,
           transition: 'transform 0.3s ease-in-out',
           width: 'calc(100% - 32px)',
-          border: '1px solid',
           borderColor: 'divider',
-          borderRadius: '18px',
         })}
       >
         <Toolbar
           variant="regular"
           sx={(theme) => ({
-            borderRadius: '18px',
             display: 'flex',
             alignItems: 'center',
             px: 2,
+            gap: 25,
             justifyContent: 'space-between',
             flexShrink: 0,
             borderRadius: '18px',
-            backdropFilter: 'blur(24px)',
             maxHeight: 60,
-            boxShadow: '0 0 1px rgba(85, 166, 246, 0.1), 1px 1.5px 2px -1px rgba(85, 166, 246, 0.15), 4px 4px 12px -2.5px rgba(85, 166, 246, 0.15)'
           })}
         >
+          <Box>
+            <Link href='/'>
+                <Image
+                  src={mode === 'light' ? '/logos/logolight' : '/logos/logodark'}
+                  loader={imageKitLoader}
+                  width={100}
+                  height={100}
+                  style={logoStyle}
+                  alt="logo of sitemark"
+                />
+              </Link>
+          </Box>
           <Box
             sx={{
-              flexGrow: 1,
+              flexGrow: 2,
               display: 'flex',
               alignItems: 'center',
               px: 0,
             }}
           >
-            <Link href='/'>
-              <Image
-                src={mode === 'light' ? '/logos/logolight' : '/logos/logodark'}
-                loader={imageKitLoader}
-                width={100}
-                height={100}
-                style={logoStyle}
-                alt="logo of sitemark"
-              />
-            </Link>
-            <Box sx={{ display: { xs: 'none', md: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 18 } }}>
+            <Box sx={{ display: { xs: 'none', md: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', justifyContent: "space-between" } }}>
               <MenuItem onClick={() => router.push('/')} sx={{ py: '6px', px: '12px' }}>
                 <Typography variant="body2" color="text.primary">
                   Home
