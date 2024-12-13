@@ -83,7 +83,7 @@ function AppAppBar() {
             display: 'flex',
             alignItems: 'center',
             px: 2,
-            gap: 25,
+            gap: {xs:2, md: 25},
             justifyContent: 'space-between',
             flexShrink: 0,
             borderRadius: '18px',
