@@ -73,8 +73,8 @@ function AppAppBar() {
           backgroundImage: 'none',
           transform: isVisible ? 'translateY(0)' : 'translateY(-100%)',
           transition: 'transform 0.3s ease-in-out',
-          width: 'calc(100% - 32px)',
           borderColor: 'divider',
+          width: "100%",
         })}
       >
         <Toolbar
@@ -83,7 +83,7 @@ function AppAppBar() {
             display: 'flex',
             alignItems: 'center',
             px: 2,
-            gap: 25,
+            gap: { xs: 2, md: 25 },
             justifyContent: 'space-between',
             flexShrink: 0,
             borderRadius: '18px',
